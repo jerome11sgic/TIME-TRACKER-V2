@@ -16,7 +16,7 @@
            $procedure = "  
                 CREATE PROCEDURE insertUser(IN user_id_company int(11), company_name int(11),recruited_date date,work_role varchar(100),Contract_Period varchar(100))  
                 BEGIN  
-                INSERT INTO user_company(user_id, company_id,recruited_date,working_status,work_role,Contract_Period) VALUES (user_id_company, company_name,recruited_date,'Working',work_role,Contract_Period);   
+                  
                 END;  
            ";  
            if(mysqli_query($connect, "DROP PROCEDURE IF EXISTS insertUser"))  

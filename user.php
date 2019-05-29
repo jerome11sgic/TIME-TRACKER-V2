@@ -130,6 +130,7 @@ include('function.php');
 			$('.modal-title').html("<i class='fa fa-plus'></i> Add User");
 			$('#action').val("ADD");
 			$('#btn_action').val("Add");
+			$('#btn_action').attr('disabled', false);
 			validatoruser.resetForm();
 		});
 
@@ -276,6 +277,7 @@ $.validator.addMethod(
 
 		$(document).on('click', '.update', function () {
 			//validatoruser.resetForm();
+			$('#btn_action').attr('disabled', false);
 			var user_id = $(this).attr("id");
 			var action = 'FETCH_SINGLE';
 			$.ajax({
