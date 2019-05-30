@@ -1,10 +1,5 @@
 <?php
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
 
-//$userEmail="'.$_POST["user_email"].'";
-//$urlglobal = "http://localhost/SGIC-Time-Tracker-v1/login.php";
-//user_action.php
 
 include_once('includes/message.inc.php');
 include_once('src/dbrepo.php');
@@ -14,29 +9,6 @@ include_once('src/User.validation.php');
 include_once('src/message.php');
 
 
-        // $username  = "jerobert";
-        // $useremail = "jerome11sgic@gmail.com";
-        // $hiduseremail = "jerome11sgic@gmai.com";
-        // $usertype  = 2;
-        // $userid    = 1;
-      
-
-        // if($useremail==$hiduseremail){
-        //     echo "matched";
-        //     UserDAO::editUser($userid,$username,$usertype);
-        // }else{
-        //     $userpassrnd=UserService::randomPassword();
-        //     if(UserDAO::editUserEmail($userid,$useremail,$userpassrnd)){
-        //         $successmsg=new Message('success');
-        //         $successmsg->pushMsg("Email is Updated :".$lastid);
-        //         if(UserService::sendMailNotification($username,$useremail,$userpassrnd,"somurl.html")){
-        //             $successmsg->pushMsg("Email send please check");
-        //         }else{
-        //             $successmsg->pushMsg("Unable to send email");
-        //         }
-        //         $successmsg->printJsonMsg();
-        //     }
-        // }
 
 if (isset($_POST['action'])) {
     if ($_POST['action'] == 'ADD') {

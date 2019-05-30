@@ -4,21 +4,10 @@ if(!isset($_SESSION['type']))
 {
 	header("location:login.php");
 }
-include('database_mysqli_assign_company.php'); 
-$timein='';
-$timeout='';
-
-$sqltime="SELECT `time_in`,`time_out` FROM `attendance` WHERE `user_id`=".$_SESSION['user_id']." AND `date`='".$_GET['date']."'";
-$result = mysqli_query($connect, $sqltime);
-if(mysqli_num_rows($result) > 0)  
-{  
-     while($row = mysqli_fetch_array($result))  {
-$timein=$row['time_in'] !=null ? $row['time_in']:'';
-$timeout=$row['time_out'] !=null ? $row['time_out']:'';
-     }
-}
 
 
+
+$userid=$_SESSION['user_id'];
 
 $currentdate=strtotime(date("Y-m-d"));
 $gotDate= strtotime($_GET['date']);
@@ -35,73 +24,75 @@ if($currentdate>$gotDate){
 
  <!-- Content Section Starts here -->
  <link rel="stylesheet" href="css/bootstrap-clockpicker.min.css">
-                <div id="content">
+                
+ <div id="content">
 
-                    <header>
-                        <h2 class="page_title">Attendance </h2>
-                    </header>
+<header>
+    <h2 class="page_title">Attendance </h2>
+</header>
 
-                    
-                        <div class="row">
 
-                            <div class="col-md-4">
-                            <form id="formTimeIn">
-                                <div class="form-group text-center">
-                                    <label class="sr-only">Time In</label>
-                                    <label for=>Time In</label>
+    <div class="row">
 
-                                    <div class="input-group clockpicker">
-                                        <input type="text" class="form-control" id="timein" value="<?php echo $timein; ?>" name="timein" readonly>
-                                        <span class="input-group-addon">
-                                             <span class="glyphicon glyphicon-time"></span>
-                                        </span>
-                                   </div>
-                                  
-                                    <input type="hidden" name="action" value="time_in"/>
-                                    <br/>
-                                    <input type="submit" id="btntimeIn" class="btn btn-primary" <?php if($disabledstatus=='disabled'){echo "disabled";}?> value="I'm in">
-                                </div>
-                                </form>
-                            </div>
+        <div class="col-md-4">
+        <div>
+        <form id="formTimeIn">
+            <div class="form-group text-center">
+                <label class="sr-only">Time In</label>
+                <label for=>Time In</label>
 
-                            <div class="col-md-4 text-center">
-                                   <h4><?php echo $_GET['date'];?></h4>
-                                   <h3>Working Hours</h3>
-                                   <h4>-hrs --mins</h4>
-                                   </div>
-                   
+                <div class="input-group clockpicker " style="width: 60%;margin:auto">
+                    <input type="text" class="form-control" id="timein"  name="timein"readonly>
+                    <span class="input-group-addon">
+                         <span class="glyphicon glyphicon-time"></span>
+                    </span>
+               </div>
+              
+                <input type="hidden" name="action" value="TIME_IN"/>
+                <br/>
+                <input type="submit" id="btntimeIn" class="btn btn-primary"  value="I'm in">
+            </div>
+            </form>
+            </div>
+        </div>
 
-                            <div class="col-md-4">
-                            <form id="formTimeOut">
-                                    <div class="form-group text-center">
-                                        <label class="sr-only">Time Out</label>
-                                        <label>Time out</label>
-                                        <div class="input-group clockpicker">
-                                        <input type="text" class="form-control" id="timeout" value="<?php echo $timeout; ?>" name="timeout" readonly>
-                                        <span class="input-group-addon">
-                                             <span class="glyphicon glyphicon-time"></span>
-                                        </span>
-                                   </div>
-                                      
-                                        <input type="hidden" name="action" value="time_out"/>
-                                        <br/>
-                                        <input type="submit" id="btntimeOut" class="btn btn-primary" <?php  if($timein ==''){echo 'disabled'; }?> value="I'm out">
-                                    </div>
-                                    </form>
-                                </div>
+        <div class="col-md-4 text-center">
+               <h4><?php echo $_GET['date'];?></h4>
+               <h3>Working Hours</h3>
+               <h4>-hrs --mins</h4>
+               </div>
 
-                               
 
-                        </div>
-
-                    
+        <div class="col-md-4">
+        <form id="formTimeOut">
+                <div class="form-group text-center">
+                    <label class="sr-only">Time Out</label>
+                    <label>Time out</label>
+                    <div class="input-group clockpicker" style="width: 60%;margin:auto">
+                    <input type="text" class="form-control" id="timeout" value="" name="timeout" readonly>
+                    <span class="input-group-addon">
+                         <span class="glyphicon glyphicon-time"></span>
+                    </span>
+               </div>
+                  
+                    <input type="hidden" name="action" value="TIME_OUT"/>
+                    <br/>
+                    <input type="submit" id="btntimeOut" class="btn btn-primary"  value="I'm out">
                 </div>
-				
+                </form>
+            </div>
+
+           
+
+    </div>
+
+
+</div>		
 				
 				
 				
            <!-- Content Section Starts here -->
-                <div id="content">
+          <div id="content">
                <form>
                     <input type="hidden" id="hiddendate" value="<?php echo $_GET['date'];?>" />
                </form>
@@ -122,47 +113,30 @@ $('.clockpicker').clockpicker({
 
 <script>
      $(document).ready(function () {
-       
           var hdate = $('#hiddendate').val();
+          var userid="<?php echo $userid;?>";
+
+     function fetchTimeData(){
+               $.ajax({
+                         url: `task_action.php`,
+                         method: "POST",
+                         data: { date: hdate,userid:userid,action:'LOAD' },
+                         dataType:"json",
+
+                         success: function (data) {
+                         console.log(data);
+                         //$('#result').html(data);
+                         $('#timein').val(data.time_in);
+                         $('#timeout').val(data.time_out);
+                         }
+                    });
+
+     }
+       
+     fetchTimeData();  
 
 
-$('#formTimeIn').submit(function(event){
-     event.preventDefault();
-    var formdata= $(this).serialize();
-     var serializedata=formdata+ "&date="+hdate;
-    
-     $.ajax({
-                    url: "time-insert.php",
-                    method: "POST",
-                    data:  serializedata ,
-                    dataType:"json",
-                    success: function (data) {
-                        alert(data.msg);
-                        window.location.reload();
-                    }
-               });
 
-});
-
-$('#formTimeOut').submit(function(event){
-     event.preventDefault();
-     var formdata= $(this).serialize();
-     var serializedata=formdata+ "&date="+hdate;
-     
-     
-    
-     $.ajax({
-                    url: "time-insert.php",
-                    method: "POST",
-                    data:  serializedata ,
-                    dataType:"json",
-                    success: function (data) {
-                        alert(data.msg);
-                        window.location.reload();
-                    }
-               });
-
-});
 
           function fetch_data() {
                $.ajax({
@@ -175,6 +149,44 @@ $('#formTimeOut').submit(function(event){
                });
           }
           fetch_data();
+
+ $('#formTimeIn').submit(function(event){
+
+     event.preventDefault();
+    var formdata= $(this).serialize();
+    var serializedata=formdata+ "&date="+hdate+"&userid="+userid;
+    console.log(serializedata);
+     $.ajax({
+                    url: "time_action.php",
+                    method: "POST",
+                    data:  serializedata ,
+                    dataType:"json",
+                    success: function (data) {
+                        alert(data.msg);
+                       
+                    }
+               });
+});
+
+$('#formTimeOut').submit(function(event){
+     event.preventDefault();
+     var formdata= $(this).serialize();
+     var serializedata=formdata+ "&date="+hdate+"&userid="+userid;
+     console.log(serializedata);
+     
+    
+     $.ajax({
+                    url: "time_action.php",
+                    method: "POST",
+                    data:  serializedata ,
+                    dataType:"json",
+                    success: function (data) {
+                        alert(data.msg);
+                        window.location.reload();
+                    }
+               });
+
+    });
 
 
           $(document).on('click', '#btn_add', function () {
@@ -207,13 +219,13 @@ $('#formTimeOut').submit(function(event){
                }
              
                $.ajax({
-                    url: "task-insert.php",
+                    url: "task_action.php",
                     method: "POST",
-                    data: { project:project,taskname: taskname, duration: duration, description: description, date: hdate },
-                    dataType: "text",
+                    data: { action:'ADD',project:project,taskname: taskname, duration: duration, description: description, date: hdate },
+                    dataType: "json",
                     success: function (data) {
                         
-                         alert(data);
+                         alert(data.msg);
                          fetch_data();
                     }
                })
@@ -224,12 +236,12 @@ $('#formTimeOut').submit(function(event){
                
 
                $.ajax({
-                    url: "task-edit.php",
+                    url: "task_action.php",
                     method: "POST",
-                    data: { id: id, text: text, column_name: column_name },
-                    dataType: "text",
+                    data: {action:'EDIT', id: id, text: text, column_name: column_name },
+                    dataType: "json",
                     success: function (data) {
-                         alert(data);
+                         alert(data.msg);
                          fetch_data();
                     }
                });
@@ -268,12 +280,12 @@ $('#formTimeOut').submit(function(event){
                var id = $(this).data("id3");
                if (confirm("Are you sure you want to delete this?")) {
                     $.ajax({
-                         url: "task-delete.php",
+                         url: "task_action.php",
                          method: "POST",
-                         data: { id: id },
-                         dataType: "text",
+                         data: {action:'DELETE', id: id },
+                         dataType: "json",
                          success: function (data) {
-                              alert(data);
+                              alert(data.msg);
                               fetch_data();
                          }
                     });

@@ -7,7 +7,7 @@ class DBRepo{
     public function __construct(){
         try
         {
-                $this->connection=new PDO('mysql:host=localhost;dbname=sgic-user;charset=utf8', 'root', 'manager');
+                $this->connection=new PDO('mysql:host=localhost;dbname=sgic-user;charset=utf8', 'root', 'manager',array(PDO::ATTR_EMULATE_PREPARES => false));
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
         }
@@ -19,18 +19,12 @@ class DBRepo{
 
     public function executeInsertGetLastId($query,$array_param){
         try{
-            
             $statement = $this->connection->prepare($query);
-          
-                $statement->execute($array_param);
-                
-                return $this->connection->lastInsertId();
-               
-          
+            $statement->execute($array_param);
+                 return $this->connection->lastInsertId();
             }catch(PDOException $e)
             {
-             
-                return null;
+              return null;
             }
 
     }
@@ -45,10 +39,36 @@ class DBRepo{
                 }
             }catch(PDOException $e)
             {
-        
-                return null;
-                
+             return null;
             }
+    }
+
+    public function executeWithTransaction(){
+                     try
+                    {
+                        $this->connection->beginTransaction();
+
+                        //  foreach($queries as $query){
+                        //     $this->connection->query($query);
+                        //  }
+                        $sql="UPDATE `user_company` SET `working_status` = 'Not_working' WHERE `id` = ? ";
+                        $stmt = $this->connection->prepare($sql);
+                        echo $stmt->execute(array(1));
+
+                        $sql="INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES (?, ?)";
+                        $stmt = $this->connection->prepare($sql);
+                        echo $stmt->execute(array(1,'2019-10-11'
+                    ));
+                              
+                         $this->connection->commit();
+                         
+                        
+                    }
+                    catch(Exception $e)
+                    { 
+                        $this->connection->rollBack();
+                      echo "Exception :".$e->getMessage();
+                    }             
     }
 
     public function executeWithMsg($success_msg,$err_msg,$query,$array_param){
@@ -60,24 +80,16 @@ class DBRepo{
                 {
                 
                 if($statement->rowCount()>0){
-                    
                     writeJsonMsg($success_msg,'success');
-                  
                 }else if($statement->rowCount()==0){
-                    
                     writeJsonMsg($err_msg,'err');
-                
                 }else{
-                    
                     writeJsonMsg('error occured please check','err');
-                   
                 }
                 
             }
             }catch(PDOException $e)
             {
-        
-
                 writeJsonMsg( $e->getMessage(),'err');
             }
         
@@ -92,15 +104,26 @@ class DBRepo{
         
     public function ifexistsLock($table_name,$column_name,$value,$lockcolum,$lockval){
         $sltquery="SELECT count({$column_name}) as countnum FROM {$table_name} WHERE {$column_name} = TRIM(:value) AND {$lockcolum} !={$lockval}";
-        return existQuery($sltquery,$value);	
+        return $this->existQuery($sltquery,$value);	
      }
         
-    private function existQuery($query,$value){
+    public function existQuery($query,$value){
             $statement = $this->connection->prepare($query);
             $statement->execute(array(':value'=>$value));
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             if($result["countnum"]>0){
-                
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+    public function existQueryWithParam($query,$param){
+            $statement = $this->connection->prepare($query);
+            $statement->execute($param);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+           
+            if($result["countnum"]>0){
                 return true;
             }else{
                 return false;
