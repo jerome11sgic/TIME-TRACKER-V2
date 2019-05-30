@@ -1,5 +1,6 @@
 <?php
-
+//include_once('dbrepo.php');
+//include_once('../includes/message.inc.php');
 class ComapanyDAO{
     public static function insertCompany($companyname,$contactnumber,$email,$address){
 
@@ -19,53 +20,64 @@ class ComapanyDAO{
     
 }
 
-public static function editUserRole($role_id,$role_name){
+public static function editCompanyDetails($company_id,$companyname,$contactnumber,$email,$address){
     $repo=new DBrepo();
     $query = "
-    UPDATE user_role set role_name = :role_name
-    WHERE role_id = :role_id";
+    UPDATE out_source_company set
+    company_name = TRIM(:company_name),
+    contact_number =TRIM(:contact_number),
+    email =TRIM(:email),
+    address=TRIM(:address)
+    WHERE company_id = :company_id";
 
-    $repo->executeWithMsg("User Role Edited","Unable to edit user role",$query,array(
-        ':role_name'	=>	$role_name,
-        ':role_id'		=>	$role_id
+    $repo->executeWithMsg("Company details Edited","Unable To Edit Company Details",$query,array(
+    ':company_id'       => $company_id,
+     ':company_name'   =>  $companyname,
+     ':contact_number' =>  $contactnumber,
+     ':email'          =>  $email,
+     ':address'        =>  $address,
     ));
 }
 
 
-public static function findUserRoleById($role_id){
+public static function findCompanyById($company_id){
     $repo=new DBrepo();
-    $query = "SELECT * FROM user_role WHERE role_id = :role_id";
-    $row=$repo->getSingleResult($query,array(':role_id'	=>	$role_id));
-    return $row['role_name'];
+    $query = "SELECT * FROM out_source_company WHERE company_id = :company_id";
+    $row=$repo->getSingleResult($query,array(':company_id'	=>	$company_id));
+    return $row;
 }
 
 
 
-public static function toggleUserRole($prmstatus,$roleId){
+public static function toggleCompany($prmstatus,$company_id){
     $repo=new DBrepo();
     $status = 'Active';
     if( $prmstatus== 'Active')
     {
-        $query="SELECT count(user.user_id) as usercount FROM user 
-                INNER JOIN user_role ON user_role.role_id=user.user_type 
-                WHERE user_role.role_id=:role_id AND user.user_status='Active'";
-        $row=$repo->getSingleResult($query,array(':role_id'	=>	$roleId));
+        $query="SELECT count(user_company.user_company_id) as userCompanyCount FROM out_source_company
+        INNER JOIN user_company ON user_company.company_id=out_source_company.company_id
+        WHERE out_source_company.company_id=:company_id AND out_source_company.company_status='Active'";
+        $row=$repo->getSingleResult($query,array(':company_id'	=>	$company_id));
         
-        if($row["usercount"]<=0){
+        if($row["userCompanyCount"]<=0){
             $status = 'Inactive';	
         }
     }
     
     $query = "
-    UPDATE user_role 
-    SET role_status = :role_status 
-    WHERE role_id = :role_id
+    UPDATE out_source_company
+	SET company_status = :company_status
+	WHERE company_id = :company_id
     ";
 
-    $repo->executeWithMsg("User Role Changed","Unable to Change user role",$query,array(
-        ':role_status'	=>	$status,
-        ':role_id'		=>	$roleId
+    $repo->executeWithMsg("Company Status Changed","Unable to Change Company Status",$query,array(
+        ':company_status'	=>	$status,
+        ':company_id'		=>	$company_id
     ));	
 }
 }
+//ComapanyDAO::insertCompany("thiruTech","07783368806","thirutech@gmail.com","jaffna");
+//ComapanyDAO::editCompanyDetails(1,"SGIC1","0778568506","thiru@gmail.com","kuppilan south jaffna");
+//ComapanyDAO::findCompanyById(1);
+//ComapanyDAO::toggleCompany("Inactive",27);
 ?>
