@@ -12,14 +12,18 @@ if (isset($_POST['param'])) {
  }
 
 if ($_POST['param'] == 'company_name') {
-  if ($_POST['action'] == 'Add') {
+  if ($_POST['action'] == 'ADD') {
    echo (json_encode(!CompanyValidation::existCompanyname($_POST['value'])));
-  } 
+  }elseif ($_POST['action'] == 'EDIT') {
+    echo (json_encode(!CompanyValidation::existCompanynameLock($_POST['value'],$_POST['actionvalue'])) );
+  }  
 }
 
 if ($_POST['param'] == 'company_email') {
-    if ($_POST['action'] == 'Add') {
+    if ($_POST['action'] == 'ADD') {
      echo (json_encode(!CompanyValidation::existEmail($_POST['value'])));
+    }elseif ($_POST['action'] == 'EDIT') {
+      echo (json_encode(!CompanyValidation::existCompanyEmailLock($_POST['value'],$_POST['actionvalue'])) );
     } 
   }
 

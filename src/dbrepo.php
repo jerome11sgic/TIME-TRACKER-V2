@@ -76,8 +76,6 @@ class DBRepo{
             }
             }catch(PDOException $e)
             {
-        
-
                 writeJsonMsg( $e->getMessage(),'err');
             }
         
@@ -92,7 +90,7 @@ class DBRepo{
         
     public function ifexistsLock($table_name,$column_name,$value,$lockcolum,$lockval){
         $sltquery="SELECT count({$column_name}) as countnum FROM {$table_name} WHERE {$column_name} = TRIM(:value) AND {$lockcolum} !={$lockval}";
-        return existQuery($sltquery,$value);	
+        return $this->existQuery($sltquery,$value);	
      }
         
     private function existQuery($query,$value){
