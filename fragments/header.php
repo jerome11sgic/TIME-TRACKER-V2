@@ -25,7 +25,7 @@ if(!isset($_SESSION["type"])){
     <link rel="stylesheet" href="css/custom.css">
     <link href='css/fullcalendar.css' rel='stylesheet' />
    
-
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
