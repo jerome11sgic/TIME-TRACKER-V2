@@ -112,7 +112,6 @@ $(document).ready(function(){
 		rules:{
 			role_name:{
 				required:true,
-				noSpace:true,
 				regex: "^[a-zA-Z'.\\s]{1,40}$" ,
 				remote: {
 					url: "validate.php",
@@ -131,7 +130,6 @@ $(document).ready(function(){
 		messages:{
 			role_name:{
 				required:"please Enter Role name",
-				noSpace:"Spaces Not Allowed",
 				regex:"Only character allowed",
 				remote:"Already exist"
 			}

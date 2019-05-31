@@ -16,6 +16,7 @@ $query .= "SELECT * FROM project WHERE user_id = '".$_SESSION["user_id"]."' AND"
 if(isset($_POST["search"]["value"]))
 {
 	$query .= '(project_name LIKE "%'.$_POST["search"]["value"].'%" ';
+	//$query .= ' start_date LIKE "%'.$_POST["search"]["value"].'%" ';
 	$query .= 'OR project_status LIKE "%'.$_POST["search"]["value"].'%" )';
 }
 
@@ -48,11 +49,15 @@ foreach($result as $row)
 	$status = '';
 	if($row['project_status'] == 'In_progress')
 	{
-		$status = '<span class="label label-success">In progress</span>';
+		$statusCheck ='<input type="checkbox" name="delete" checked id="'.$row["project_id"].'" class="delete"  data-status="'.$row["project_status"].'">';
+		$updatebutton='<button type="button" name="update" id="'.$row["project_id"].'" class="btn btn-warning btn-xs update">Edit</button>';
+		//$status = '<span class="label label-success">In progress</span>';
 	}
 	else
 	{
-		$status = '<span class="label label-danger">Finished</span>';
+		$statusCheck ='<input type="checkbox" name="delete"  id="'.$row["project_id"].'" class="delete"  data-status="'.$row["project_status"].'">';
+		$updatebutton='<button type="button" name="update" disabled id="'.$row["project_id"].'" class="btn btn-warning btn-xs update">Edit</button>';
+		//$status = '<span class="label label-danger">Finished</span>';
 	}
 	$sub_array = array();
 	$sub_array[] = $row['project_id'];
@@ -60,9 +65,10 @@ foreach($result as $row)
 	$sub_array[] = $row['start_date'];
 	$sub_array[] = $row['description'];
 	$sub_array[] = $row['remarks'];
-	$sub_array[] = $status;
-	$sub_array[] = '<button type="button" name="update" id="'.$row["project_id"].'" class="btn btn-warning btn-xs update">Update</button>';
-	$sub_array[] = '<button type="button" name="delete" id="'.$row["project_id"].'" class="btn btn-danger btn-xs delete" data-status="'.$row["project_status"].'">Delete</button>';
+	$sub_array[] =$updatebutton;
+	$sub_array[] = $statusCheck;
+	//$sub_array[] = '<button type="button" name="update" id="'.$row["project_id"].'" class="btn btn-warning btn-xs update">Update</button>';
+	//$sub_array[] = '<button type="button" name="delete" id="'.$row["project_id"].'" class="btn btn-danger btn-xs delete" data-status="'.$row["project_status"].'">Delete</button>';
 	$data[] = $sub_array;
 }
 

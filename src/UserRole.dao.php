@@ -1,5 +1,6 @@
 <?php
-
+//include_once('dbrepo.php');
+//include_once('../includes/message.inc.php');
  
 class UserRoleDAO{
 	
@@ -74,5 +75,5 @@ class UserRoleDAO{
 }
 
  
-// UserRoleDAO::insertUserRole("xyz");
+// UserRoleDAO::insertUserRole("");
 ?>

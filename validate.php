@@ -4,6 +4,7 @@ require_once 'src/dbrepo.php';
 require_once 'src/UserRole.validation.php';
 require_once 'src/Company.validation.php';
 require_once 'src/User.validation.php';
+require_once 'src/Projects.validation.php';
 
 if (isset($_POST['param'])) {
  if ($_POST['param'] == 'rolename') {
@@ -40,6 +41,13 @@ if($_POST['param'] == 'user_email'){
      }elseif ($_POST['action'] == 'EDIT') {
       echo (json_encode(!Uservalidation::existEmailLock($_POST['value'],$_POST['actionvalue'])) );
     }
+}
+if($_POST['param'] == 'project_name'){
+  if ($_POST['action'] == 'ADD') {
+  echo (json_encode(!ProjectsValidation::existProjectname($_POST['value']) ));
+  }elseif ($_POST['action'] == 'EDIT') {
+    echo (json_encode(!ProjectsValidation::existProjectnameLock($_POST['value'],$_POST['actionvalue'])) );
+  }
 } 
 
 }

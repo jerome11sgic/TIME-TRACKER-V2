@@ -70,7 +70,7 @@ public static function toggleCompany($prmstatus,$company_id){
 	WHERE company_id = :company_id
     ";
 
-    $repo->executeWithMsg("Company Status Changed","Unable to Change Company Status",$query,array(
+    $repo->executeWithMsg("Company Status Changed to ".$status,"Unable to Change Company Status",$query,array(
         ':company_status'	=>	$status,
         ':company_id'		=>	$company_id
     ));	

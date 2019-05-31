@@ -310,8 +310,10 @@ $.validator.addMethod(
 					url: "user_action.php",
 					method: "POST",
 					data: { user_id: user_id, status: status, action: action },
+					dataType: "json",
 					success: function (data) {
-						$('#alert_action').fadeIn().html('<div class="alert alert-info">' + data + '</div>');
+						console.log(data);
+						$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
 						userdataTable.ajax.reload();
 						setTimeout(() => {
 						$('#alert_action').html('');
