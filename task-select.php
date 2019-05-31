@@ -1,12 +1,13 @@
 <?php  
- //$connect = mysqli_connect("localhost", "root", "manager", "sgic-user");
+
  session_start();
  require_once('database_mysqli_assign_company.php'); 
-  
+ require_once('src/dbrepo.php');
+ require_once('src/Task.dao.php');
+
  $output = '';  
 
-$sql = "SELECT project.project_id,project.project_name,events.id,events.title,events.duration,events.description FROM events INNER JOIN project ON project.project_id=events.project_id WHERE ( events.start='".$_POST['date']."' AND project.user_id='".$_SESSION['user_id']."' ) ORDER BY id DESC"; 
-$sqlsum="SELECT SUM(duration) as total FROM events INNER JOIN project ON project.project_id=events.project_id WHERE ( events.start='".$_POST['date']."' AND project.user_id='".$_SESSION['user_id']."' ) ORDER BY id DESC";
+
  function fill_project_list($connect,$id)
 {
 	$query = "SELECT * FROM project WHERE user_id = ".$_SESSION["user_id"];
@@ -47,8 +48,11 @@ function print_duration($timeMins){
      return $time_unit;
 }
 
- $result = mysqli_query($connect, $sql);
- $resultsum=mysqli_query($connect,$sqlsum);
+$date=$_POST['date'];
+$userid=$_SESSION['user_id'];
+
+$result = TaskDAO::getAllEventsByDateAndUserId($date,$userid);
+$resultsum=TaskDAO::sumAllEventsByDateAndUserId($date,$userid);
 
  //print_r($result);
  $output .= '  
@@ -61,9 +65,9 @@ function print_duration($timeMins){
                      <th width="30%">Description</th>  
                      <th width="10%"></th>  
                 </tr>';  
- if(mysqli_num_rows($result) > 0)  
+ if(count($result) > 0)  
  {  
-      while($row = mysqli_fetch_array($result))  
+      foreach($result as $row)  
       {  
            if($_GET['uistate']=="enabled"){
            $output .= '  
@@ -157,9 +161,9 @@ function print_duration($timeMins){
  }  
 
 
- while ($row = mysqli_fetch_assoc( $resultsum))
+ if($resultsum!=null)
 { 
-     $totaltime=$row['total'];
+     $totaltime=$resultsum;
      $hr=floor($totaltime/60);
      $min=$totaltime%60;
 

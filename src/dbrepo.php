@@ -140,7 +140,7 @@ class DBRepo{
         
             $statement = $this->connection->prepare($query);
             $statement->execute($param);
-            $result = $statement->fetchAll();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $result;
 		
 		}

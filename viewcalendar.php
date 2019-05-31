@@ -1,18 +1,21 @@
 
 <?php
-//category.php
+
 include('./fragments/header.php');
-require_once('database_config_dashboard.php');
+
+
+
 if(!isset($_SESSION['type']))
 {
 	header("location:login.php");
 }
-$sql = "SELECT * FROM events INNER JOIN project ON project.project_id=events.project_id WHERE project.user_id='".$_SESSION['user_id']."'  ORDER BY id DESC";
 
-$req = $connect->prepare($sql);
-$req->execute();
+require_once('src/dbrepo.php');
+require_once('src/Task.dao.php');
+$userid=$_SESSION['user_id'];
 
-$events = $req->fetchAll();
+
+$events = TaskDAO::getAllTaskByUserId($userid);
 //print_r($events);
 ?>
 
@@ -162,19 +165,11 @@ $events = $req->fetchAll();
 			selectHelper: true,
 		
 			dayClick: function( date, allDay, jsEvent, view ) { 
-                    var myDate = new Date();
-										myDate.setDate(myDate.getDate());
-
-                    if (date > myDate) {
-                    
-                    alert("You Can't Enter Time Sheets for this!");    
-                    }
-                    else
-                    {
+                  
 											var date=moment(date).format('YYYY-MM-DD');
 											window.location.href=encodeURI(`task.php?date=${date}`); 
 									
-                     }
+                     
 			   }   ,
 			eventRender: function(event, element) {
 				element.bind('dblclick', function() {
@@ -185,16 +180,27 @@ $events = $req->fetchAll();
 				});
 			},
 			eventDrop: function(event, delta, revertFunc) { // si changement de position
+	
+			
 					if(delta._days<=-1){
-						alert("Can't drag to previous days");
-						revertFunc();
-					}else if(delta._days>1){
-						alert("Can't drag to more than one day");
-						revertFunc();
+						var today=new Date();
+			var srcdate=new Date(event.start._i);
+			days=(today.getTime()-srcdate.getTime())/(24*60*60*1000);
+			fdays=Math.floor(days);
+
+				if(fdays<=delta._days){
+					edit(event);
+				}else{
+							alert("Can't drag to previous days");
+							revertFunc();
+				}		
+					
 					}else{
 						edit(event);
 					}
 				},
+			
+
 			eventResize: function(event,dayDelta,minuteDelta,revertFunc) { // si changement de longueur
 
 				edit(event);
@@ -250,13 +256,20 @@ $events = $req->fetchAll();
 			 url: 'editEventDate.php',
 			 type: "POST",
 			 data: {Event:Event},
+			 dataType:"json",
 			 success: function(rep) {
-					if(rep == 'OK'){
+				 console.log(rep);
+					if(rep.type== 'success'){
 						alert('Saved');
-					}else{
+					}else if(rep.type== 'err'){
 						alert('Could not be saved. try again.'); 
+						window.location.reload();
 					}
-				}
+				}, 
+				error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      }
 			});
 		}
 		

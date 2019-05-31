@@ -57,12 +57,15 @@ if($res['user_status']!='Active'){
 					</div>
 
 
-					<input type="hidden" name="user_id_company" id="user_id_company"
-						value="<?php echo $_GET['userid'];?>" />
+					
 
 				</div>
 				<div class="modal-footer">
-					<input type="submit" name="btn_action_company" id="btn_action_company" class="btn btn-info"
+					<input type="hidden" name="user_id_company" id="user_id_company"
+						value="<?php echo $_GET['userid'];?>" />
+						<input type="hidden" name="action" id="action"
+						value="ADD" />
+					<input type="submit" name="btn_action" id="btn_action" class="btn btn-info"
 						value="Add" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
@@ -185,7 +188,8 @@ function fetchCompany(userid) {
 
 
 		$('#add_button').on('click', function () {
-
+			
+			$('#action').val('ADD');
 			$('#companyModal').modal('show');
 
 		});

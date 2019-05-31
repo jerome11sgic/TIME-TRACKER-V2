@@ -42,7 +42,7 @@ if($currentdate>$gotDate){
                 <label for=>Time In</label>
 
                 <div class="input-group clockpicker " style="width: 60%;margin:auto">
-                    <input type="text" class="form-control" id="timein"  name="timein"readonly>
+                    <input type="text" class="form-control" id="timein"  name="timein" readonly>
                     <span class="input-group-addon">
                          <span class="glyphicon glyphicon-time"></span>
                     </span>
@@ -69,7 +69,7 @@ if($currentdate>$gotDate){
                     <label class="sr-only">Time Out</label>
                     <label>Time out</label>
                     <div class="input-group clockpicker" style="width: 60%;margin:auto">
-                    <input type="text" class="form-control" id="timeout" value="" name="timeout" readonly>
+                    <input type="text" class="form-control" id="timeout" value="" name="timeout" <?php echo $disabledstatus;?> readonly>
                     <span class="input-group-addon">
                          <span class="glyphicon glyphicon-time"></span>
                     </span>
@@ -115,6 +115,14 @@ $('.clockpicker').clockpicker({
      $(document).ready(function () {
           var hdate = $('#hiddendate').val();
           var userid="<?php echo $userid;?>";
+
+          var currentdate="<?php echo $currentdate; ?>";
+          var gotdate="<?php echo $gotDate ?>";
+
+          if(currentdate-gotdate!=0){
+               $('#btntimeIn').attr('disabled', 'disabled');
+               $('#btntimeOut').attr('disabled', 'disabled');
+          }
 
      function fetchTimeData(){
                $.ajax({
