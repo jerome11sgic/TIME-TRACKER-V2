@@ -100,7 +100,7 @@ else
 
 
         <li class="link">
-            <a href="viewcalendar.php">
+            <a href="dashboard-leave.php">
                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
                 <span class="hidden-sm hidden-xs">Adjustments</span>
             </a>
@@ -110,14 +110,5 @@ else
       ?>
 
 
-
-
-
-        <!-- <li class="link settings-btn">
-            <a href="settings.html">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                <span class="hidden-sm hidden-xs">Settings</span>
-            </a>
-        </li> -->
     </ul>
 </div>

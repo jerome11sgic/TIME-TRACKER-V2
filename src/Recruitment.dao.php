@@ -54,6 +54,21 @@ class RecruitmentDAO{
         return $repo->executeWitAffectedrows($query,$param);
     }
 
+
+    public static function getUserRecruitments($userid){
+        $repo=new DBrepo();
+        $query="SELECT 
+		oc.company_name,uc.recruited_date,uc.working_status,uc.id,uc.work_role,uc.contract_period,ter.date_of_termination
+		FROM USER_COMPANY uc JOIN out_source_company oc 
+		ON uc.company_id = oc.company_id
+		LEFT JOIN termination ter
+		ON ter.user_company_id=uc.id
+        WHERE user_id=:userid ORDER BY user_company_id DESC";
+        
+        $param=array(':userid'=>$userid);
+        return $repo->fetchAllResults($query,$param);
+    }
+
     public static function makeTermination(){
         $repo=new DBrepo();
         // "INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES ('{$recruitId}', '{$dot}')"
@@ -71,5 +86,8 @@ class RecruitmentDAO{
 //RecruitmentDAO::insertRecruitment("1","1","2019-12-9","se","6");
 //echo RecruitmentDAO::updateRecruitment("1","3","2019-6-19","qa","9");
 //echo RecruitmentDAO::deleteRecruitment(1);
-echo RecruitmentDAO::makeTermination();
+//echo RecruitmentDAO::makeTermination();
+// echo "<pre>";
+// print_r( );
+// echo "</pre>";
 ?>

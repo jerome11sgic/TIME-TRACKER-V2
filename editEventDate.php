@@ -1,7 +1,9 @@
 <?php
 
-// Connexion à la base de données
-require_once('database_config_dashboard.php');
+session_start();
+include_once('includes/message.inc.php');
+require_once('src/dbrepo.php');
+require_once('src/Task.dao.php');
 
 if (isset($_POST['Event'][0]) && isset($_POST['Event'][1]) && isset($_POST['Event'][2])){
 	
@@ -10,23 +12,27 @@ if (isset($_POST['Event'][0]) && isset($_POST['Event'][1]) && isset($_POST['Even
 	$start = $_POST['Event'][1];
 	$end = $_POST['Event'][2];
 
-	$sql = "UPDATE events SET  start = '$start', end = '$end' WHERE id = $id ";
 
-	
-	$query = $connect->prepare( $sql );
-	if ($query == false) {
-	 print_r($connect->errorInfo());
-	 die ('Erreur prepare');
-	}
-	$sth = $query->execute();
-	if ($sth == false) {
-	 print_r($query->errorInfo());
-	 die ('Erreur execute');
+	$userid=$_SESSION['user_id'];
+
+	$resultsum=TaskDAO::sumAllEventsByDateAndUserId($start,$userid);
+
+	if($resultsum>=480){
+		writeJsonMsg('Exceed time','err');
 	}else{
-		die ('OK');
-	}
+		TaskDAO::updateTaskWithStartAndEnd($start,$end,$id);
+	   }
+	   
+	
+		
+	
 
-}
+	}
+	
+	
+	
+
+
 //header('Location: '.$_SERVER['HTTP_REFERER']);
 
 	

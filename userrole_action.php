@@ -14,10 +14,10 @@ if(isset($_POST['action']))
 		
 		if(UserRoleValidation::existRoleName($role_name)){
 			writeJsonMsg('The role name is already available','err');
-			return false;
-		}
+			
+		}else{
 		UserRoleDAO::insertUserRole($role_name);
-		
+		}
 	}
 	
 	if($_POST['action'] == 'FETCH_SINGLE')

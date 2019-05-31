@@ -1,22 +1,22 @@
 
 <?php
 //category.php
-include('./fragments/header.php');
-require_once('database_config_dashboard.php');
+include('fragments/header.php');
+
 if(!isset($_SESSION['type']))
 {
 	header("location:login.php");
 }
-$sql = "SELECT id, title, start, end, color FROM events ";
-
-$req = $connect->prepare($sql);
-$req->execute();
-
-$events = $req->fetchAll();
-//print_r($events);
 ?>
 
-<div id="calendar" class="col-centered"></div>
+<div class="row">
+
+<div class="col-md-8">
+<div id="calendar" class="col-centered" style="width:80%;"></div>
+</div>
+<div class="col-md-4">
+</div>
+</div>
         <!-- /.row -->
 		
 		<!-- Modal -->
@@ -160,15 +160,14 @@ $events = $req->fetchAll();
 			eventLimit: true, // allow "more" link when too many events
 			selectable: true,
 			selectHelper: true,
-			select: function(start, end) {
-				
-				// $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
-				// $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD HH:mm:ss'));
-				// $('#ModalAdd').modal('show');
-				var date=moment(start).format('YYYY-MM-DD');
-				window.location.href=encodeURI(`managetimesheet.php?date=${date}`);
-				//window.location.href=encodeURI(`task.php?date=${date}`);
-			},
+		
+			dayClick: function( date, allDay, jsEvent, view ) { 
+                  
+											var date=moment(date).format('YYYY-MM-DD');
+											window.location.href=encodeURI(`task.php?date=${date}`); 
+									
+                     
+			   }   ,
 			eventRender: function(event, element) {
 				element.bind('dblclick', function() {
 					$('#ModalEdit #id').val(event.id);
@@ -178,40 +177,24 @@ $events = $req->fetchAll();
 				});
 			},
 			eventDrop: function(event, delta, revertFunc) { // si changement de position
-
-				edit(event);
-
-			},
+					if(delta._days<=-1){
+						alert("Can't drag to previous days");
+						revertFunc();
+					}else if(delta._days>1){
+						alert("Can't drag to more than one day");
+						revertFunc();
+					}else{
+						edit(event);
+					}
+				},
 			eventResize: function(event,dayDelta,minuteDelta,revertFunc) { // si changement de longueur
 
 				edit(event);
 
 			},
 			events: [
-			<?php 
-			foreach($events as $event): 
+	
 			
-				$start = explode(" ", $event['start']);
-				$end = explode(" ", $event['end']);
-				if($start[1] == '00:00:00'){
-					$start = $start[0];
-				}else{
-					$start = $event['start'];
-				}
-				if($end[1] == '00:00:00'){
-					$end = $end[0];
-				}else{
-					$end = $event['end'];
-				}
-			?>
-				{
-					id: '<?php echo $event['id']; ?>',
-					title: '<?php echo $event['title']; ?>',
-					start: '<?php echo $start; ?>',
-					end: '<?php echo $end; ?>',
-					color: '<?php echo $event['color']; ?>',
-				},
-			<?php endforeach; ?>
 			]
 		});
 		
@@ -239,6 +222,7 @@ $events = $req->fetchAll();
 						alert('Saved');
 					}else{
 						alert('Could not be saved. try again.'); 
+						
 					}
 				}
 			});
