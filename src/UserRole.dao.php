@@ -17,7 +17,7 @@ class UserRoleDAO{
 		) LIMIT 1"
 		;
 		
-		$repo->executeWithMsg("User Role inserted","unable to insert User Role",$query,array(
+		$repo->executeWithMsg("User Role Added Sucssfully","unable to insert User Role",$query,array(
 			':role_name'	=>	$role_name,
 			':role_status'	=>	'Active'
 		));
@@ -30,7 +30,7 @@ class UserRoleDAO{
 		UPDATE user_role set role_name = :role_name
 		WHERE role_id = :role_id";
 
-		$repo->executeWithMsg("User Role Edited","Unable to edit user role",$query,array(
+		$repo->executeWithMsg("User Role Edited Sucssfully","Unable to edit user role",$query,array(
 			':role_name'	=>	$role_name,
 			':role_id'		=>	$role_id
 		));
