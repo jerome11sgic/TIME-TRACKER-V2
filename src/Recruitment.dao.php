@@ -1,6 +1,6 @@
 <?php
 
-include_once('dbrepo.php');
+require_once 'dbrepo.php';
 class RecruitmentDAO{
 
     public static function insertRecruitment($userid,$company_name,$recruited_date,$work_role,$contract_Period){
@@ -39,7 +39,7 @@ class RecruitmentDAO{
             ':recruited_date'    => $recruited_date,
             ':work_role'    => $work_role,
             ':contract_Period'    => $contract_Period
-        );
+        ); 
 
         return $repo->executeWitAffectedrows($query,$param);
     }
@@ -69,8 +69,23 @@ class RecruitmentDAO{
         return $repo->fetchAllResults($query,$param);
     }
 
+    public static function getUserRecruitmentById($recruitid){
+        $repo=new DBrepo();
+        $query="SELECT * FROM `user_company` WHERE `id`=:id";
+        $row=$repo->getSingleResult($query,array(':id'	=>	$recruitid));
+		return $row;
+    }
+
+    public static function checkWorkingStatus($userid){
+        $repo=new DBrepo();
+        $query="SELECT count(`working_status`) as countnum FROM `user_company` WHERE `user_id`=:userid";
+        $param=array(':userid'=>$userid);
+        return $repo->existQueryWithParam($query,$param);
+    }
+
     public static function makeTermination(){
         $repo=new DBrepo();
+        $repo->getConnection()->beginTransaction();
         // "INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES ('{$recruitId}', '{$dot}')"
         // "UPDATE `user_company` SET `working_status` = 'Not_working' WHERE `user_company`.`user_company_id` = {$recruitId} "
 
@@ -78,8 +93,8 @@ class RecruitmentDAO{
         // "UPDATE `user_company` SET `working_status` = 'Not_working' WHERE `user_company`.`id` = 1 ",
         // "INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES ('1', '2019-10-11')");
         
-        $repo->executeWithTransaction();
-
+       
+       
     }
 }
 

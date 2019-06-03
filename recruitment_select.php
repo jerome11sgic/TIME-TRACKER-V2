@@ -4,7 +4,7 @@ include_once('src/Recruitment.dao.php');
 
  
  $statusActive='Active';
- if($_GET["status"]!='Active'){
+ if($_POST["status"]!='Active'){
       $statusActive='Inactive';
 }
 
@@ -21,14 +21,26 @@ include_once('src/Recruitment.dao.php');
 <div class="col-md-12 ">
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			Recruited Details
+
+
+		
+			<span><h4 style="display:inline;">Recruited Details</h4></span>
 
 			<span class="pull-right">
 				<?php
 							if($statusActive=='Active'){
-								echo "<button class='btn btn-small btn-primary delete_company' style='padding:0px;width:200%;' id='{$row['id']}' ><i class='fa fa-trash'   aria-hidden='true'></i></button>";
+								
+								
+								echo "<button class='btn btn-xs btn-primary EDIT_COMPANY'  id='{$row['id']}' ><i class='fa fa-edit'   aria-hidden='true'></i></button>";
+								echo "&nbsp";
+								echo "<button class='btn btn-xs btn-primary delete_company'  id='{$row['id']}' ><i class='fa fa-trash'   aria-hidden='true'></i></button>";
+								
 							}else{
-								echo "<button class='btn btn-small btn-primary delete_company' style='padding:0px;width:200%;' id='{$row['id']}' disabled><i class='fa fa-trash'   aria-hidden='true'></i></button>";
+								
+								echo "<button class='btn btn-xs btn-primary EDIT_COMPANY' style='padding:0px;width:200%;' id='{$row['id']}' disabled><i class='fa fa-edit'   aria-hidden='true'></i></button>";
+								echo "&nbsp";
+								echo "<button class='btn btn-xs btn-primary delete_company' style='padding:0px;width:200%;' id='{$row['id']}' disabled><i class='fa fa-trash'   aria-hidden='true'></i></button>";
+								
 							}
 							?>
 			</span>

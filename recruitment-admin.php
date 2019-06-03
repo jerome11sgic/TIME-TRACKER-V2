@@ -1,18 +1,17 @@
 <?php
-//profile.php
+//profile.php  
 include('./fragments/header.php');
-include('database_config_dashboard.php');
-include('includes/query_execute.inc.php');
+require_once 'src/User.dao.php';
+require_once 'src/Recruitment.dao.php';
 include('function.php');
 
-$useractiveSql="SELECT `user_status` FROM `user` WHERE `user_id`={$_GET["userid"]}";
-$res=getResult($connect,$useractiveSql);
+$userid=$_GET["userid"];
+$dbStatus=UserDAO::getUserStatusById($userid);
+echo $dbStatus;
 
 $statusActive='Active';
-if($res['user_status']!='Active'){
+if($dbStatus!='Active'){
 	$statusActive='Inactive';
-	
-	
 }
 ?>
 <div id="companyModal" class="modal fade">
@@ -37,12 +36,12 @@ if($res['user_status']!='Active'){
 					<div class="form-group">
 						<label>Work Role</label>
 						<select name="work_role" id="work_role" class="form-control" required />
-							<option>Associate Software Engineer</option>
-							<option>Associate Q-A Engineer</option>
-							<option> Software Engineer</option>
-							<option> Q-A Engineer</option>
-							<option> Tech Lead</option>
-							<option> Architect</option>
+						<option>Associate Software Engineer</option>
+						<option>Associate Q-A Engineer</option>
+						<option> Software Engineer</option>
+						<option> Q-A Engineer</option>
+						<option> Tech Lead</option>
+						<option> Architect</option>
 						<select>
 					</div>
 
@@ -53,20 +52,19 @@ if($res['user_status']!='Active'){
 
 					<div class="form-group">
 						<label>Contract Period (In months)</label>
-						<input type="number" name="Contract_Period" id="Contract_Period" class="form-control" required min="0"/>
+						<input type="number" name="contract_Period" id="contract_Period" class="form-control" required
+							min="0" />
 					</div>
-
 
 					
 
 				</div>
 				<div class="modal-footer">
-					<input type="hidden" name="user_id_company" id="user_id_company"
+					<input type="hidden" name="user_id" id="user_id"
 						value="<?php echo $_GET['userid'];?>" />
-						<input type="hidden" name="action" id="action"
-						value="ADD" />
-					<input type="submit" name="btn_action" id="btn_action" class="btn btn-info"
-						value="Add" />
+					<input type="hidden" name="recruitId" id="recruitId" />
+					<input type="hidden" name="action" id="action" value="ADD" />
+					<input type="submit" name="btn_action" id="btn_action" class="btn btn-info" value="Add" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -100,24 +98,19 @@ if($statusActive!='Active'){
 						<h3 class="panel-title">Company Assignment</h3>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-4 col-xs-6 pull-right">
-					<?php
+						<?php
 					if($statusActive=='Active'){
-					$workStatusQuery="SELECT count(`working_status`) as workcount FROM `user_company` WHERE `user_id`='{$_GET["userid"]}'";
-
-					$res=getResult($connect,$workStatusQuery);
-				
-					if($res['workcount']>0){
+						if(RecruitmentDAO::checkWorkingStatus($userid)){
 						echo "<span class='alert-danger '>Can not Assign Company Since the User is Alredy Working</span>";
 						echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right' disabled>Add</button>";
+						}else{
+							echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right'>Add</button>";
+						}
 					}else{
-						echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right'>Add</button>";
+						echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right' disabled>Add</button>";
 					}
-				}else{
-					
-					echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right' disabled>Add</button>";
-				}
 					?>
-						
+
 					</div>
 				</div>
 
@@ -125,6 +118,7 @@ if($statusActive!='Active'){
 			</div>
 			<div class="panel-body">
 				<div id="alert_company_action"></div>
+				<!-- Fetch results goes here -->
 				<div id="result"></div>
 			</div>
 		</div>
@@ -141,22 +135,28 @@ if($statusActive!='Active'){
 
 <script>
 
-function fetchCompany(userid) {
-			var btn_action = 'fetch_single';
-			var action = "select";
-			$.ajax({
-				url: "recruitment_select.php?status=<?php echo $statusActive;?>",
-				method: "POST",
-				data: { action: action, user_id: userid },
-				success: function (data) {
-					$('#result').html(data);
-				}
-			});
-		}
- 
-	$(document).ready(function () {
+	function fetchCompany(userid) {
+		
+		var action = "SELECT";
+		var status="<?php echo $statusActive;?>";
+		$.ajax({
+			url: "recruitment_select.php",
+			method: "POST",
+			data: { action: action, user_id: userid,status:status },
+			success: function (data) {
+				$('#result').html(data);
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);
+					console.log(thrownError);
+			}
+		});
+	}
 
-		fetchCompany("<?php echo $_GET['userid'];?>") 
+	$(document).ready(function () {
+		var userId="<?php echo $userid;?>";
+		fetchCompany(userId);
 
 		$(document).on('submit', '#company_form', function (event) {
 			event.preventDefault();
@@ -166,47 +166,77 @@ function fetchCompany(userid) {
 			$.ajax({
 				url: "recruitment_action.php",
 				method: "POST",
-				data: form_data + "&action_company=Add",
+				data: form_data,
 				success: function (data) {
 					$('#company_form')[0].reset();
 					$('#companyModal').modal('hide');
 					$('#alert_company_action').html(data);
 					$('#btn_action_company').attr('disabled', false);
-					fetchCompany("<?php echo $_GET['userid'];?>") ;
-						$('#alert_company_action').html(data);
-						setTimeout(() => {
-						window.location.reload();
-						}, 1500);
-					
-					
-					
-					
+					fetchCompany(userId);
+					$('#alert_company_action').html(data);
+					// setTimeout(() => {
+					// 	window.location.reload();
+					// }, 1500);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);
+					console.log(thrownError);
 				}
 			});
 		});
 
 
+		
+
+		$(document).on('click', '.EDIT_COMPANY', function(){
+		
+		var id = $(this).attr("id");
+
+		var action = 'FETCH_SINGLE';
+		$.ajax({
+			url:"recruitment_action.php",
+			method:"POST",
+			data:{recruit_id: id, action: action},
+			dataType:"json",
+			success:function(data)
+			{
+				console.log(data);
+				$('#action').val('EDIT');
+				$('#btn_action').val("Update");
+				$('#companyModal').modal('show');
+				
+				$('companyModal .modal-title').html("<i class='fa fa-pencil-square-o'></i> Edit Recruitment Details");
+				
+				$('#recruitId').val(id);
+				$('#company_name').val(data.company_id);
+				$('#work_role').val(data.work_role);
+				$('#recruited_date').val(data.recruited_date);
+				$('#contract_Period').val(data.contract_period);
+
+			}
+		})
+		});
 
 		$('#add_button').on('click', function () {
-			
 			$('#action').val('ADD');
 			$('#companyModal').modal('show');
-
 		});
 
 		$(document).on('click', '.delete_company', function () {
 			var id = $(this).attr("id");
-			
+
 			if (confirm("Are you sure you want to remove this data?")) {
-				var action = "Delete";
+				var action = "DELETE";
 				$.ajax({
 					url: "recruitment_action.php",
 					method: "POST",
-					data: { user_company_id: id, action_company: action },
+					data: {recruit_id: id, action: action },
+					dataType:"json",
 					success: function (data) {
-						//alert-danger
-						fetchCompany("<?php echo $_GET['userid'];?>") ;
-						$('#alert_company_action').html(data);
+						console.log(data);
+						fetchCompany(userId);
+						$('#alert_company_action').html(data.msg);
 						setTimeout(() => {
 							window.location.reload();
 						}, 1500);

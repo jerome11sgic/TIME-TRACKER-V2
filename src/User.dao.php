@@ -1,6 +1,6 @@
 <?php
 
-
+require_once 'dbrepo.php';
 class UserDAO{
     
     
@@ -30,6 +30,13 @@ class UserDAO{
 		$row=$repo->getSingleResult($query,array(':user_id'	=>	$userid));
 		return $row;
 	}
+
+    public static function getUserStatusById($userid){
+        $repo=new DBrepo();
+        $query="SELECT `user_status` FROM `user` WHERE `user_id`=:user_id";
+        $row=$repo->getSingleResult($query,array(':user_id'	=>	$userid));
+        return $row['user_status'];
+    }
 
     public static function editUser($userid,$username,$usertype){
         $repo=new DBrepo();
