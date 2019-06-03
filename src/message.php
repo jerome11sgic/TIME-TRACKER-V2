@@ -21,7 +21,7 @@ class Message{
        return array(
                 'type'=>$this->type,
                 'msgcounts'=>$this->msgcounter,
-                'message'=>$this->message);
+                'msg'=>$this->message);
     }
 
     public function printJsonMsg(){

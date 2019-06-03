@@ -83,7 +83,7 @@ include './fragments/footer.html';
 
 					<div class="form-group">
 						<label>Enter Address</label>
-						<textarea name="address" id="address" class="form-control" required maxlength="30"></textarea>
+						<textarea name="address" id="address" class="form-control" required maxlength="30" style="resize:none;"></textarea>
 						</div>
 
     				<div class="modal-footer">
@@ -152,7 +152,6 @@ var validatorCompany =$('#company_form').validate({
 		rules:{
 			company_name:{
 				required:true,
-				noSpace:true,
 				regex: "^[a-zA-Z'.\\s]{1,40}$",
 				remote: {
 					url: "validate.php",
@@ -206,7 +205,6 @@ var validatorCompany =$('#company_form').validate({
 		messages:{
 			company_name:{
 				required:"please Enter Company Name",
-				noSpace:"Spaces Not Allowed",
 				regex:"Only character allowed",
 				remote:"Already exist"
 			},
@@ -324,7 +322,7 @@ var validatorCompany =$('#company_form').validate({
 					success: function (data) {
 						console.log(data);
 						if (data.type == 'success'){
-							$('#alert_action').fadeIn().html('<div class="alert alert-info">' + data.msg + '</div>');
+							$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
 						companydataTable.ajax.reload();
 						setTimeout(() => {
 						$('#alert_action').html('');
