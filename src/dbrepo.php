@@ -43,6 +43,9 @@ class DBRepo{
             }
     }
 
+    public function getConnection(){
+        return $this->connection;
+    }
     public function executeWithTransaction(){
                      try
                     {
@@ -94,7 +97,8 @@ class DBRepo{
             }
         
     }
-		
+        
+    
         
     public function ifexists($table_name,$column_name,$value){
 

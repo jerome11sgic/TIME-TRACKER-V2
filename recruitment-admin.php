@@ -52,17 +52,17 @@ if($dbStatus!='Active'){
 
 					<div class="form-group">
 						<label>Contract Period (In months)</label>
-						<input type="number" name="Contract_Period" id="Contract_Period" class="form-control" required
+						<input type="number" name="contract_Period" id="contract_Period" class="form-control" required
 							min="0" />
 					</div>
 
-
-
+					
 
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" name="user_id" id="user_id"
 						value="<?php echo $_GET['userid'];?>" />
+					<input type="hidden" name="recruitId" id="recruitId" />
 					<input type="hidden" name="action" id="action" value="ADD" />
 					<input type="submit" name="btn_action" id="btn_action" class="btn btn-info" value="Add" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -118,6 +118,7 @@ if($statusActive!='Active'){
 			</div>
 			<div class="panel-body">
 				<div id="alert_company_action"></div>
+				<!-- Fetch results goes here -->
 				<div id="result"></div>
 			</div>
 		</div>
@@ -135,14 +136,20 @@ if($statusActive!='Active'){
 <script>
 
 	function fetchCompany(userid) {
-		var btn_action = 'fetch_single';
-		var action = "select";
+		
+		var action = "SELECT";
+		var status="<?php echo $statusActive;?>";
 		$.ajax({
-			url: "recruitment_select.php?status=<?php echo $statusActive;?>",
+			url: "recruitment_select.php",
 			method: "POST",
-			data: { action: action, user_id: userid },
+			data: { action: action, user_id: userid,status:status },
 			success: function (data) {
 				$('#result').html(data);
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);
+					console.log(thrownError);
 			}
 		});
 	}
@@ -159,7 +166,7 @@ if($statusActive!='Active'){
 			$.ajax({
 				url: "recruitment_action.php",
 				method: "POST",
-				data: form_data + "&action=ADD",
+				data: form_data,
 				success: function (data) {
 					$('#company_form')[0].reset();
 					$('#companyModal').modal('hide');
@@ -167,35 +174,69 @@ if($statusActive!='Active'){
 					$('#btn_action_company').attr('disabled', false);
 					fetchCompany(userId);
 					$('#alert_company_action').html(data);
-					setTimeout(() => {
-						window.location.reload();
-					}, 1500);
+					// setTimeout(() => {
+					// 	window.location.reload();
+					// }, 1500);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);
+					console.log(thrownError);
 				}
 			});
 		});
 
 
+		
+
+		$(document).on('click', '.EDIT_COMPANY', function(){
+		
+		var id = $(this).attr("id");
+
+		var action = 'FETCH_SINGLE';
+		$.ajax({
+			url:"recruitment_action.php",
+			method:"POST",
+			data:{recruit_id: id, action: action},
+			dataType:"json",
+			success:function(data)
+			{
+				console.log(data);
+				$('#action').val('EDIT');
+				$('#btn_action').val("Update");
+				$('#companyModal').modal('show');
+				
+				$('companyModal .modal-title').html("<i class='fa fa-pencil-square-o'></i> Edit Recruitment Details");
+				
+				$('#recruitId').val(id);
+				$('#company_name').val(data.company_id);
+				$('#work_role').val(data.work_role);
+				$('#recruited_date').val(data.recruited_date);
+				$('#contract_Period').val(data.contract_period);
+
+			}
+		})
+		});
 
 		$('#add_button').on('click', function () {
-
 			$('#action').val('ADD');
 			$('#companyModal').modal('show');
-
 		});
 
 		$(document).on('click', '.delete_company', function () {
 			var id = $(this).attr("id");
 
 			if (confirm("Are you sure you want to remove this data?")) {
-				var action = "Delete";
+				var action = "DELETE";
 				$.ajax({
 					url: "recruitment_action.php",
 					method: "POST",
-					data: { user_company_id: id, action_company: action },
+					data: {recruit_id: id, action: action },
+					dataType:"json",
 					success: function (data) {
-						//alert-danger
-						fetchCompany("<?php echo $_GET['userid'];?>");
-						$('#alert_company_action').html(data);
+						console.log(data);
+						fetchCompany(userId);
+						$('#alert_company_action').html(data.msg);
 						setTimeout(() => {
 							window.location.reload();
 						}, 1500);
