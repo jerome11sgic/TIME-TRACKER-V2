@@ -1,6 +1,6 @@
 <?php
 
-include_once('dbrepo.php');
+require_once 'dbrepo.php';
 class RecruitmentDAO{
 
     public static function insertRecruitment($userid,$company_name,$recruited_date,$work_role,$contract_Period){
@@ -39,7 +39,7 @@ class RecruitmentDAO{
             ':recruited_date'    => $recruited_date,
             ':work_role'    => $work_role,
             ':contract_Period'    => $contract_Period
-        );
+        ); 
 
         return $repo->executeWitAffectedrows($query,$param);
     }
@@ -67,6 +67,13 @@ class RecruitmentDAO{
         
         $param=array(':userid'=>$userid);
         return $repo->fetchAllResults($query,$param);
+    }
+
+    public static function checkWorkingStatus($userid){
+        $repo=new DBrepo();
+        $query="SELECT count(`working_status`) as countnum FROM `user_company` WHERE `user_id`=:userid";
+        $param=array(':userid'=>$userid);
+        return $repo->existQueryWithParam($query,$param);
     }
 
     public static function makeTermination(){

@@ -261,9 +261,7 @@ function checkPasswordStrength() {
 		});
 
 		
-	});
-		//edit profile jquary
-	$(document).ready(function () {
+
 		$('#edit_profile_form').on('submit', function (event) {
 			event.preventDefault();
 			var form_data = $(this).serialize();
@@ -290,9 +288,7 @@ function checkPasswordStrength() {
 				}
 			})
 		});
-	});
-	//photo upload jquary
-	$(document).ready(function () {
+	
 		$('#edit_photo_form').submit(function (event) {
 			if($('#photo').val()==''){
 				$('#empty_file').html('<label class="text-danger">Please Choose file </label>');

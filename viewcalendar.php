@@ -182,22 +182,24 @@ $events = TaskDAO::getAllTaskByUserId($userid);
 			eventDrop: function(event, delta, revertFunc) { // si changement de position
 	
 			
-					if(delta._days<=-1){
-						var today=new Date();
-			var srcdate=new Date(event.start._i);
-			days=(today.getTime()-srcdate.getTime())/(24*60*60*1000);
-			fdays=Math.floor(days);
+					if(delta._days<=0){
+					var today=new Date();
+					var srcdate=new Date(event.start._i);
+					days=(today.getTime()-srcdate.getTime())/(24*60*60*1000);
+					fdays=Math.floor(days);
 
 				if(fdays<=delta._days){
 					edit(event);
-				}else{
-							alert("Can't drag to previous days");
-							revertFunc();
-				}		
+						}else{
+									alert("Can't drag to previous days");
+									revertFunc();
+						}		
 					
 					}else{
 						edit(event);
 					}
+
+				
 				},
 			
 
