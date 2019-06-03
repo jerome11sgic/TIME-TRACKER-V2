@@ -1,32 +1,17 @@
 <?php
 //profile.php
 include('./fragments/header.php');
-include('database_config_dashboard.php');
+include_once('includes/message.inc.php');
+include_once('src/dbrepo.php');
+include_once('src/UserProfile.dao.php');
+$user_id=null;
+if (isset($_GET['userid'])){
+	$user_id=$_GET['userid'];
+}else{
+$user_id=$_SESSION['user_id'];
+}
+$row=UserProfileDAO::findProfilleById($user_id);
 
-try{
-$query = "
-SELECT 
-user_profile.first_name,user_profile.last_name,user_profile.address,user_profile.address,user_profile.contact_number,user_profile.photo,user.user_name,user.user_email,user.user_password FROM user_profile INNER JOIN user ON user_profile.user_id=user.user_id
-WHERE user.user_id = '".$_SESSION["user_id"]."'
-";
-
-//echo $query;
-
-$statement = $connect->prepare($query);
-$statement->execute();
-$result = $statement->fetchAll();
-$user_name = '';
-$first_name = '';
-$last_name = '';
-$address = '';
-$contact_number = '';
-$user_email = '';
-$user_password = '';
-$photo = '';
-$profile_id = '';
-$user_id = '';
-foreach($result as $row)
-{
 	$user_name = $row['user_name'];
 	$first_name = $row['first_name'];
 	$last_name = $row['last_name'];
@@ -35,11 +20,16 @@ foreach($result as $row)
 	$photo = $row['photo'];
 	$user_email = $row['user_email'];
 	$user_password = $row['user_password'];
-}
-}catch(PDOException $e){
-	echo 'error occured please check ' .$e->getMessage();
-}
 
+	$action="null";
+	$btn_action="null";
+	if($row['first_name']==null){
+		$action="ADD_PROFILE";
+		$btn_action="Add";
+	}else{
+		$action="EDIT_PROFILE";
+		$btn_action="Edit";
+	}
 ?>
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -52,9 +42,10 @@ foreach($result as $row)
 			<div class="panel panel-default margin-2">
 				<div class="panel-heading">Profile</div>
 				<div class="panel-body">
-					<form method="post" id="edit_profile_form">
+					<form method="post" id="edit_profile_form" autocomplete="off">
 						<!-- enctype="multipart/form-data" -->
 						<span id="profile_message"></span>
+						<span id="errorprofile_message"></span>
 
 
 						<div class="form-group">
@@ -87,15 +78,13 @@ foreach($result as $row)
 
 						<div class="form-group">
 							<label>Address</label>
-							<textarea name="address" id="address" class="form-control" rows="3" cols="3" style="resize:none;" required>
-								<?php echo $address; ?>
-							</textarea>
-
+							<textarea name="address" id="address" class="form-control" rows="3" cols="3" style="resize:none;" required><?php echo $address; ?></textarea>
 						</div>
 
 						<div class="form-group">
-							<input type="hidden" name="action" value="edit_profile" />
-							<input type="submit" name="edit_profile" id="edit_prfile" value="Edit"
+							<input type="hidden" name="user_id" value="<?php echo $user_id; ?>" />
+							<input type="hidden" name="action" value="<?php echo $action; ?>" />
+							<input type="submit" name="btn_action" id="btn_action" value="<?php echo $btn_action; ?>"
 								class="btn btn-info" />
 						</div>
 
@@ -271,10 +260,12 @@ function checkPasswordStrength() {
 			$('#edit_profile').attr('disabled', 'disabled');
 			//$('#user_re_enter_password').attr('required', false);
 			$.ajax({
-				url: "edit_profile.php",
+				url: "userprofile_action.php",
 				method: "POST",
 				data: form_data,
+				dataType:"json",
 				success: function (data) {
+					if (data.type =='success'){
 					$('#edit_prfile').attr('disabled', false);
 					$('#first_name').val('');
 					$('#last_name').val('');
@@ -283,10 +274,22 @@ function checkPasswordStrength() {
 					$('#user_name').val('');
 					$('#user_email').val('');
 					$('#photo').val('');
-					$('#profile_message').html(data);
+					$('#profile_message').fadeIn().html('<div class="alert alert-success">'+data.msg+'</div>');
 					setTimeout(function () {
-							window.location.reload();	
+						$('#profile_message').html('');	
 						}, 1500);
+					}else if(data.type == 'err'){
+						$('#errorprofile_message').fadeIn().html('<div class="alert alert-danger">'+data.msg+'</div>');
+						$('#edit_prfile').attr('disabled', false);
+						setTimeout(function () {
+						$('#errorprofile_message').html('');	
+						}, 1500);
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);	
+					console.log(thrownError);
 				}
 			})
 		});

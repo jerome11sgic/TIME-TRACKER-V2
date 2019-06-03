@@ -296,7 +296,7 @@ var validatorCompany =$('#company_form').validate({
 			},
 			"columnDefs": [
 				{
-					"targets": [2,3,5, 6],
+					"targets": [0,2,4,5,6],
 					"orderable": false,
 				},
 			],
