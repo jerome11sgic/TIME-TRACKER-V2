@@ -1,5 +1,5 @@
 <?php
-//profile.php  
+
 include('./fragments/header.php');
 require_once 'src/User.dao.php';
 require_once 'src/Recruitment.dao.php';
@@ -14,6 +14,8 @@ if($dbStatus!='Active'){
 	$statusActive='Inactive';
 }
 ?>
+
+<!-- Company Modal Goes here -->
 <div id="companyModal" class="modal fade">
 	<div class="modal-dialog">
 
@@ -72,6 +74,53 @@ if($dbStatus!='Active'){
 	</div>
 </div>
 
+<!-- Termination modal goes here -->
+<div id="terminationModal" class="modal fade">
+	<div class="modal-dialog">
+
+		<form id="termination_form">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"><i class="fa fa-plus"></i> Make Termination</h4>
+				</div>
+				<div class="modal-body">
+					
+
+					<div class="form-group">
+						<label>Termination Choices:</label>
+						<select name="termination_choice" id="termination_choice" class="form-control" required />
+						<option>Contract Period Finished</option>
+						<option>With Employee willingness</option>
+						<option>Misbehaviour</option>
+						<option>Performance Problem</option>
+						<select>
+					</div>
+
+					<div class="form-group">
+						<label for="recruited_date">Termination Date</label>
+						<input type="date" name="termination_date" id="recruited_date" class="form-control" required />
+					</div>
+
+					<div class="form-group">
+						<label>Termination Memo :</label>
+						<textarea name="termination_memo" id="termination_memo" class="form-control" rows="3" cols="3" style="resize:none;" required></textarea>
+					</div>
+
+					
+
+				</div>
+				<div class="modal-footer">
+				
+					<input type="hidden" name="recruitId" id="recruitId" />
+					<input type="hidden" name="action" id="action" value="ADD" />
+					<input type="submit" name="btn_action" id="btn_action" class="btn btn-info" value="Add" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -127,8 +176,6 @@ if($statusActive!='Active'){
 </div>
 
 
-
-
 <?php include('./fragments/script.html')?>
 
 
@@ -154,9 +201,51 @@ if($statusActive!='Active'){
 		});
 	}
 
+	
+
 	$(document).ready(function () {
 		var userId="<?php echo $userid;?>";
 		fetchCompany(userId);
+
+		$('#add_button').on('click', function () {
+			$('#companyModal #action').val('ADD');
+			$('#companyModal').modal('show');
+		});
+
+		$(document).on('click', '.TERMINATE', function (event) {
+			var id=$(this).attr('id');
+			$('#terminationModal #action').val('ADD_TERMINATE');
+			$('#terminationModal').modal('show');
+			
+		});
+
+		$(document).on('submit', '#termination_form', function (event) {
+			event.preventDefault();
+			var form_data = $(this).serialize();
+			console.log(form_data);
+			$.ajax({
+				url: "recruitment_action.php",
+				method: "POST",
+				data: form_data,
+				success: function (data) {
+					$('#company_form')[0].reset();
+					$('#companyModal').modal('hide');
+					$('#alert_company_action').html(data);
+					$('#btn_action_company').attr('disabled', false);
+					fetchCompany(userId);
+					$('#alert_company_action').html(data);
+					// setTimeout(() => {
+					// 	window.location.reload();
+					// }, 1500);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);
+					console.log(thrownError);
+				}
+			});
+		});
+
 
 		$(document).on('submit', '#company_form', function (event) {
 			event.preventDefault();
@@ -218,10 +307,7 @@ if($statusActive!='Active'){
 		})
 		});
 
-		$('#add_button').on('click', function () {
-			$('#action').val('ADD');
-			$('#companyModal').modal('show');
-		});
+
 
 		$(document).on('click', '.delete_company', function () {
 			var id = $(this).attr("id");

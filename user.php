@@ -19,7 +19,7 @@ include('function.php');
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" align="right">
 						<button type="button" name="add" id="add_button" data-toggle="modal" data-target="#userModal"
-							class="btn btn-primary btn-xs">Add</button>
+							class="btn btn-primary btn-small">Add User</button>
 					</div>
 				</div>
 
@@ -139,7 +139,7 @@ include('function.php');
 			"serverSide": true,
 			"order": [],
 			"language": {
-    			"search": "Search by Email or Name:"
+    			"search": "Search by Name or Role:"
  				 },
 			"ajax": {
 				url: "user_fetch.php",
@@ -148,7 +148,7 @@ include('function.php');
 			},
 			"columnDefs": [
 				{
-					"targets": [4,5,6,7,8],
+					"targets": [0,4,5,6,7,8],
 					"orderable": false
 				}
 			],

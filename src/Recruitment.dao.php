@@ -85,14 +85,37 @@ class RecruitmentDAO{
 
     public static function makeTermination(){
         $repo=new DBrepo();
+        $status=0;
         $repo->getConnection()->beginTransaction();
-        // "INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES ('{$recruitId}', '{$dot}')"
-        // "UPDATE `user_company` SET `working_status` = 'Not_working' WHERE `user_company`.`user_company_id` = {$recruitId} "
 
-        // $queries=array(
-        // "UPDATE `user_company` SET `working_status` = 'Not_working' WHERE `user_company`.`id` = 1 ",
-        // "INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES ('1', '2019-10-11')");
-        
+
+        $query1="UPDATE `user_company` SET `working_status` = 'Not_working' WHERE `user_company`.`id` = :recruitId ";
+        // $param1=array(':recruitId'=>$recruitId);
+        $param1=array(':recruitId'=>3);
+        $updateAffected=$repo->executeWitAffectedrows($query1,$param1);
+        echo "\nupdated rows : ".$updateAffected;
+        if($updateAffected>0){
+            echo "\nupdated : ";
+            $status++;
+        }
+
+
+        $query2="INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES (:recId, :dot)";
+        // $param2=array(':recruitId'=>$recruitId,':dot'=>$dot);
+        $param2=array(':recId'=>3,':dot'=>'2018-09-23');
+        $InsertAffected=$repo->executeWitAffectedrows($query2,$param2);
+        echo "\nInserted rows : ".$InsertAffected;
+        if($InsertAffected>0){
+            echo "\nInserted";
+            $status++;
+        }
+       
+      echo "\nstatus count :".$status;
+        if($status==2){
+            $repo->getConnection()->commit();
+        }else{
+            $repo->getConnection()->rollBack();
+        }
        
        
     }
@@ -105,4 +128,6 @@ class RecruitmentDAO{
 // echo "<pre>";
 // print_r( );
 // echo "</pre>";
+
+//RecruitmentDAO::makeTermination()
 ?>

@@ -16,7 +16,7 @@ if (!isset($_SESSION['type'])) {
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                         <div class="pull-right">
-                             <button type="button" name="add" id="add_button" data-toggle="modal" data-target="#userroleModal" class="btn btn-success btn-xs">Add</button>
+                             <button type="button" name="add" id="add_button" data-toggle="modal" data-target="#userroleModal" class="btn btn-primary btn-small">Add Role</button>
                         </div>
                     </div>
                     <div style="clear:both"></div>
@@ -213,7 +213,7 @@ $(document).ready(function(){
 		},
 		"columnDefs":[
 			{
-				"targets":[2, 3],
+				"targets":[0,2, 3],
 				"orderable":false,
 			},
 		]

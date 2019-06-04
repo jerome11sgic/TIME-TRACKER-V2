@@ -24,6 +24,7 @@ class DBRepo{
                  return $this->connection->lastInsertId();
             }catch(PDOException $e)
             {
+            echo ( $e->getMessage());
               return null;
             }
 
@@ -39,6 +40,7 @@ class DBRepo{
                 }
             }catch(PDOException $e)
             {
+                echo ( $e->getMessage());
              return null;
             }
     }
@@ -46,34 +48,7 @@ class DBRepo{
     public function getConnection(){
         return $this->connection;
     }
-    public function executeWithTransaction(){
-                     try
-                    {
-                        $this->connection->beginTransaction();
-
-                        //  foreach($queries as $query){
-                        //     $this->connection->query($query);
-                        //  }
-                        $sql="UPDATE `user_company` SET `working_status` = 'Not_working' WHERE `id` = ? ";
-                        $stmt = $this->connection->prepare($sql);
-                        echo $stmt->execute(array(1));
-
-                        $sql="INSERT INTO `termination` (`user_company_id`, `date_of_termination`) VALUES (?, ?)";
-                        $stmt = $this->connection->prepare($sql);
-                        echo $stmt->execute(array(1,'2019-10-11'
-                    ));
-                              
-                         $this->connection->commit();
-                         
-                        
-                    }
-                    catch(Exception $e)
-                    { 
-                        $this->connection->rollBack();
-                      echo "Exception :".$e->getMessage();
-                    }             
-    }
-
+   
     public function executeWithMsg($success_msg,$err_msg,$query,$array_param){
 		$msg=null;
             try{
