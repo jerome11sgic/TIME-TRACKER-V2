@@ -308,7 +308,7 @@ var validatorCompany =$('#company_form').validate({
 
 			},
 			"language": {
-    			"search": "Search by Company Name:",
+    			"search": "Search by Company Name or Status:",
 				"searchPlaceholder": "Search Records"
  				 },
 			"columnDefs": [
