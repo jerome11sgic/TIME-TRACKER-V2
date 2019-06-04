@@ -19,7 +19,7 @@ if (!isset($_SESSION["type"])) {
 				<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
 					<div class="pull-right">
 						<button type="button" name="add" id="add_button" data-toggle="modal" data-target="#companyModal"
-							class="btn btn-success btn-xs">Add</button>
+							class="btn btn-primary btn-small">Add Company</button>
 					</div>
 				</div>
 				<div style="clear:both"></div>
@@ -294,9 +294,12 @@ var validatorCompany =$('#company_form').validate({
 				type: "POST",
 
 			},
+			"language": {
+    			"search": "Search by Company Name:"
+ 				 },
 			"columnDefs": [
 				{
-					"targets": [2,3,5, 6],
+					"targets": [0,2,3,4,5, 6],
 					"orderable": false,
 				},
 			],

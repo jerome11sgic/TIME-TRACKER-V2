@@ -63,6 +63,7 @@ $resultsum=TaskDAO::sumAllEventsByDateAndUserId($date,$userid);
                      <th width="25%">Task Name</th>  
                      <th width="10%">Duration</th>
                      <th width="30%">Description</th>  
+                     <th>color</th>
                      <th width="10%"></th>  
                 </tr>';  
  if(count($result) > 0)  
@@ -87,6 +88,10 @@ $resultsum=TaskDAO::sumAllEventsByDateAndUserId($date,$userid);
                      </td>
 
                      <td class="description" data-id3="'.$row["id"].'" contenteditable>'.$row["description"].'</td>  
+                     <td>
+
+
+                     </td>
                      <td><button type="button" name="delete_btn" data-id3="'.$row["id"].'" class="btn btn-xs btn-danger btn_delete">x</button></td>  
                 </tr>  
            ';  

@@ -48,7 +48,7 @@ include_once('src/message.php');
        echo json_encode(RecruitmentDAO::getUserRecruitmentById($recruitid));
     }
 
-     if($_POST["action"] == "TERMINATE")  {
+     if($_POST["action"] == "ADD_TERMINATE")  {
       
      }
  }  

@@ -84,16 +84,11 @@ include_once('src/Recruitment.dao.php');
 						</tr>
 						<tr>
 							<th align="right">Working Staus</th>
-
-
-
-
-
-							<?php 
+						<?php 
 						if( $row['working_status']=='Working') {
                                    echo "<th>
                                    <span style='color:green'>Working</span>
-                                   <button class='btn btn-xs btn-danger pull-right terminate' id='{$row['id']}'>Terminate</button></th>";
+                                   <button class='btn btn-xs btn-danger pull-right TERMINATE' id='{$row['id']}'>Terminate</button></th>";
 						}else{
 							echo "<td>Left on : {$row['date_of_termination']}</td>";
 						}
