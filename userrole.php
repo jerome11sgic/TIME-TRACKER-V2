@@ -16,7 +16,7 @@ if (!isset($_SESSION['type'])) {
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                         <div class="pull-right">
-                             <button type="button" name="add" id="add_button" data-toggle="modal" data-target="#userroleModal" class="btn btn-primary btn-small">Add Role</button>
+                             <button type="button" name="add" id="add_button" class="btn btn-primary btn-small">Add Role</button>
                         </div>
                     </div>
                     <div style="clear:both"></div>
@@ -139,10 +139,12 @@ $(document).ready(function(){
 	// Action for Add Button
 	$('#add_button').click(function(){
 		$('#userrole_form')[0].reset();
+		validatorUserRole.resetForm();
 		$('.modal-title').html("<i class='fa fa-plus'></i> Add Role");
 		$('#action').val('ADD');
 		$('#btn_action').val('Add');
-		validatorUserRole.resetForm();
+		$('#userroleModal').modal('show');
+		
 	});
 
 	$(document).on('submit','#userrole_form', function(event){

@@ -49,12 +49,12 @@ $user_id=$_SESSION['user_id'];
 						<div class="form-group">
 							<label>Contact Number</label>
 							<input type="text" name="contact_number" id="contact_number" class="form-control"
-								 required maxlength="13"/>
+							 required maxlength="13"/>
 						</div>
 						<div class="form-group">
 							<label>Email</label>
-							<input type="email" name="user_email" id="user_email" class="form-control" required readonly
-								 />
+							<input type="email" name="user_email" id="user_email" class="form-control"  required readonly
+							 />
 						</div>
 
 						<div class="form-group">
@@ -85,11 +85,11 @@ $user_id=$_SESSION['user_id'];
 				<div class="panel-body">
 					<span id="photo_upload"></span>
 					<form method="post" id="edit_photo_form" action="upload.php">
-						<label>Choose the file to change profile photo</label>
+						
 
 						<div class="form-group">
-							<label>Profile Image</label>
-							<input type="file" name="photo" id="photo" accept=".jpg,.png" class="form-control" />
+						<label>Choose the file to change profile photo</label>
+							<input type="file" name="photo" id="photo" accept=".jpg,.png" class="form-control"  />
 							<span id="empty_file"></span>
 						</div>
 

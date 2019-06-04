@@ -18,7 +18,7 @@ include('function.php');
 						<h3 class="panel-title">User List</h3>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" align="right">
-						<button type="button" name="add" id="add_button" data-toggle="modal" data-target="#userModal"
+						<button type="button" name="add" id="add_button" 
 							class="btn btn-primary btn-small">Add User</button>
 					</div>
 				</div>
@@ -127,13 +127,18 @@ include('function.php');
 		
 		$('#add_button').click(function () {
 			$('#user_form')[0].reset();
+			validatoruser.resetForm();
 			$('.modal-title').html("<i class='fa fa-plus'></i> Add User");
 			$('#action').val("ADD");
 			$('#btn_action').val("Add");
 			$('#btn_action').attr('disabled', false);
-			validatoruser.resetForm();
+			$('#userModal').modal('show');
+		
 		});
 
+		// $(document).on('click', '#add_button', function () {
+		// 		
+		// 	})
 		var userdataTable = $('#user_data').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -274,6 +279,7 @@ $.validator.addMethod(
 				});
 			})
 		
+		
 
 		$(document).on('click', '.update', function () {
 			//validatoruser.resetForm();
@@ -315,7 +321,8 @@ $.validator.addMethod(
 						console.log(data);
 						if(data.type=='success'){
 							$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
-						}else if(data.type=='err'){
+						}else if(data.type==
+						'err'){
 							$('#alert_action').fadeIn().html('<div class="alert alert-danger">' + data.msg + '</div>');
 						}
 						
