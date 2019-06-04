@@ -18,8 +18,7 @@ if (!isset($_SESSION["type"])) {
 				</div>
 				<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
 					<div class="pull-right">
-						<button type="button" name="add" id="add_button" data-toggle="modal" data-target="#companyModal"
-							class="btn btn-primary btn-small">Add Company</button>
+						<button type="button" name="add" id="add_button" class="btn btn-primary btn-small">Add Company</button>
 					</div>
 				</div>
 				<div style="clear:both"></div>
@@ -121,14 +120,7 @@ include './fragments/footer.html';
 		}
 	});
 
-		$('#add_button').click(function () {
-			$('#company_form')[0].reset();
-			$('.modal-title').html("<i class='fa fa-plus'></i> Add Company");
-			$('#action').val('ADD');
-			$('#btn_action').val('Add');
-			$('#btn_action').attr('disabled', false);
-			validatorCompany.resetForm();
-		});
+	
 
 
 	$.validator.addMethod("noSpace", function(value, element) {
@@ -225,6 +217,16 @@ var validatorCompany =$('#company_form').validate({
 				maxlength:"Address should not exceed 40 characters"
 			}
 		}
+		});
+
+		$('#add_button').click(function () {
+			$('#company_form')[0].reset();
+			validatorCompany.resetForm();
+			$('.modal-title').html("<i class='fa fa-plus'></i> Add Company");
+			$('#action').val('ADD');
+			$('#btn_action').val('Add');
+			$('#btn_action').attr('disabled', false);
+			$('#companyModal').modal('show');
 		});
 
 		$(document).on('submit', '#company_form', function (event) {
