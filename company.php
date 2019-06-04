@@ -231,31 +231,36 @@ var validatorCompany =$('#company_form').validate({
 			event.preventDefault();
 			$('#btn_action').attr('disabled', 'disabled');
 			var form_data = $(this).serialize();
-			console.log(form_data);
+			//console.log(form_data);
 			$.ajax({
 				url: "company_action.php",
 				method: "POST",
 				data: form_data,
 				dataType:"json",
 				success: function (data) {
-				console.log(data);
+				//console.log(data);
 				$('#btn_action').attr('disabled', false);
 					if(data.type == 'success'){
 						$('#company_form')[0].reset();
 						$('#companyModal').modal('hide');
-						$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
+						$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.successMessage + '</div>');
 						
 						companydataTable.ajax.reload();
 						setTimeout(() => {
 							$('#alert_action').html('');
 						}, 1500);
 					}else if (data.type == 'err'){
-						$('#alert_msg_modal').fadeIn().html('<div class="alert alert-danger">'+data.msg+'</div>');
+						$('#alert_msg_modal').fadeIn().html('<div class="alert alert-danger">'+data.errorMessage+'</div>');
 						$('#action').attr('disabled', false);
 						setTimeout(() => {
 							$('#alert_msg_modal').html('');
 						}, 1500);
 					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);	
+					console.log(thrownError);
 				}
 
 			})
@@ -271,7 +276,7 @@ var validatorCompany =$('#company_form').validate({
 				data: { company_id: company_id, action: action },
 				dataType: "json",
 				success: function (data) {
-					console.log(data);
+					//console.log(data);
 					$('#companyModal').modal('show');
 					$('#company_name').val(data.company_name);
 					$('#contact_number').val(data.contact_number);
@@ -323,7 +328,7 @@ var validatorCompany =$('#company_form').validate({
 					data: { company_id: company_id, status: status, action: action },
 					dataType: "json",
 					success: function (data) {
-						console.log(data);
+						//console.log(data);
 						if (data.type == 'success'){
 							$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
 						companydataTable.ajax.reload();

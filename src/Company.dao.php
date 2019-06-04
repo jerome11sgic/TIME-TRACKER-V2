@@ -10,7 +10,7 @@ class ComapanyDAO{
 		INSERT INTO out_source_company (company_name,contact_number,email,address,company_status)
 		VALUES (TRIM(:company_name),TRIM(:contact_number),TRIM(:email),TRIM(:address),:company_status)
 		";
-    $repo->executeWithMsg("Company details inserted", "unable to insert Company details",$query, array(
+    return $repo->executeInsertGetLastId($query, array(
      ':company_name'   => $companyname,
      ':contact_number' => $contactnumber,
      ':email'          => $email,
@@ -30,7 +30,7 @@ public static function editCompanyDetails($company_id,$companyname,$contactnumbe
     address=TRIM(:address)
     WHERE company_id = :company_id";
 
-    $repo->executeWithMsg("Company details Edited","Unable To Edit Company Details",$query,array(
+    return $repo->executeWitAffectedrows($query,array(
     ':company_id'       => $company_id,
      ':company_name'   =>  $companyname,
      ':contact_number' =>  $contactnumber,
