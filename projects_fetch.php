@@ -81,7 +81,7 @@ $output = array(
 
 function get_total_all_records($connect)
 {
-	$statement = $connect->prepare("SELECT * FROM project");
+	$statement = $connect->prepare("SELECT * FROM project WHERE user_id = '".$_SESSION["user_id"]."'" );
 	$statement->execute();
 	return $statement->rowCount();
 }
