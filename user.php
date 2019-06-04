@@ -67,12 +67,12 @@ include('function.php');
 				<div class="modal-body">
 				<span id="alert_msg_modal"></span>
 					<div class="form-group">
-						<label>Enter User Name</label>
-						<input type="text" name="user_name" id="user_name" class="form-control" required />
+						<label>User Name</label>
+						<input type="text" name="user_name" id="user_name" class="form-control"placeholder="Enter User Name" required />
 					</div>
 					<div class="form-group">
-						<label>Enter User Email</label>
-						<input type="email" name="user_email" id="user_email" class="form-control" required />
+						<label>User Email</label>
+						<input type="email" name="user_email" id="user_email"placeholder="Enter User Email" class="form-control" required />
 						<input type="hidden" name="hidden_user_email" id="hidden_user_email" class="form-control" required />
 					</div>
 					
@@ -144,7 +144,8 @@ include('function.php');
 			"serverSide": true,
 			"order": [],
 			"language": {
-    			"search": "Search by Name or Role or Status:"
+    			"search": "Search by Name or Role or Status:",
+					"searchPlaceholder": "Search Records"
  				 },
 			"ajax": {
 				url: "user_fetch.php",
