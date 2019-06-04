@@ -14,20 +14,20 @@ if (isset($_POST['action'])) {
   $email            = trim($_POST["company_email"]);
   $address          = trim($_POST["address"]);
 
-  $errmsg=new Message('err');
+  $msg=new Message();
   if(CompanyValidation::existCompanyname($companyname)){
-      $errmsg->pushMsg('Company Name Already exist');
+      $msg->pushErrorMsg('Company Name Already exist');
   }
   if(CompanyValidation::existEmail($email)){
-      $errmsg->pushMsg('Company Email Address Already exist');
+      $msg->pushErrorMsg('Company Email Address Already exist');
   }
-
-  if($errmsg->getMsgCount()>0){
-      $errmsg->printJsonMsg();
-  }else{
-    ComapanyDAO::insertCompany($companyname,$contactnumber,$email,$address);
-  }
-
+      if($msg->getErrMsgCount()==0){
+        $rowaffect=ComapanyDAO::insertCompany($companyname,$contactnumber,$email,$address);
+        if($rowaffect>0){
+            $msg->pushSuccessMsg("Comapany Details Added successfully");
+        }
+      }
+      $msg->printJsonMsg();
  }
 
  if ($_POST['action'] == 'EDIT') {
@@ -37,19 +37,23 @@ if (isset($_POST['action'])) {
     $email         = trim($_POST["company_email"]);
     $address       = trim($_POST["address"]);
 
-    $errmsg=new Message('err');
+    $msg=new Message();
     if(CompanyValidation::existCompanynameLock($companyname,$company_id)){
-        $errmsg->pushMsg('Company Name Already exist');
+        $errmsg->pushErrorMsg('Company Name Already exist');
     }
     if(CompanyValidation::existCompanyEmailLock($email,$company_id)){
-        $errmsg->pushMsg('Company Email Address Already exist');
+        $msg->pushErrorMsg('Company Email Address Already exist');
     }
   
-    if($errmsg->getMsgCount()>0){
-        $errmsg->printJsonMsg();
-    }else{
-    ComapanyDAO::editCompanyDetails($company_id,$companyname,$contactnumber,$email,$address);
-    }
+    if($msg->getErrMsgCount()==0){
+        $rowaffect=ComapanyDAO::editCompanyDetails($company_id,$companyname,$contactnumber,$email,$address);
+    if($rowaffect==0){
+       $msg->pushErrorMsg("No Changes Done");
+    }else if($rowaffect>0){
+        $msg->pushSuccessMsg("Comapany edited successfully");
+     }
+}
+    $msg->printJsonMsg();
     }   
 
 if ($_POST['action'] == 'FETCH_SINGLE') {
