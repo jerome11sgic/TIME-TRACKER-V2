@@ -139,7 +139,7 @@ include('function.php');
 			"serverSide": true,
 			"order": [],
 			"language": {
-    			"search": "Search by Name or Role:",
+    			"search": "Search by Name or Role or Status:",
 					"searchPlaceholder": "Search Records"
  				 },
 			"ajax": {
@@ -149,7 +149,7 @@ include('function.php');
 			},
 			"columnDefs": [
 				{
-					"targets": [0,4,5,6,7,8],
+					"targets": [0,1,4,5,6,7,8],
 					"orderable": false
 				}
 			],
@@ -314,7 +314,12 @@ $.validator.addMethod(
 					dataType: "json",
 					success: function (data) {
 						console.log(data);
-						$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
+						if(data.type=='success'){
+							$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
+						}else if(data.type=='err'){
+							$('#alert_action').fadeIn().html('<div class="alert alert-danger">' + data.msg + '</div>');
+						}
+						
 						userdataTable.ajax.reload();
 						setTimeout(() => {
 						$('#alert_action').html('');

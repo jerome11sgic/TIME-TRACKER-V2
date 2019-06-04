@@ -7,7 +7,7 @@ include('function.php');
 
 $userid=$_GET["userid"];
 $dbStatus=UserDAO::getUserStatusById($userid);
-echo $dbStatus;
+
 
 $statusActive='Active';
 if($dbStatus!='Active'){
@@ -125,7 +125,7 @@ if($dbStatus!='Active'){
 <div class="row">
 	<div class="col-lg-12">
 		<ol class="breadcrumb">
-			<li><a href="#">User List</a></li>
+			<li><a href="user.php">User List</a></li>
 			<li class="active">recruitments</li>
 		</ol>
 	</div>
@@ -151,12 +151,12 @@ if($statusActive!='Active'){
 					if($statusActive=='Active'){
 						if(RecruitmentDAO::checkWorkingStatus($userid)){
 						echo "<span class='alert-danger '>Can not Assign Company Since the User is Alredy Working</span>";
-						echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right' disabled>Add</button>";
+						echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-small pull-right' disabled>Add Recruitment</button>";
 						}else{
-							echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right'>Add</button>";
+							echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-small pull-right'>Add Recruitment</button>";
 						}
 					}else{
-						echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-xs pull-right' disabled>Add</button>";
+						echo "<button type='button' name='add' id='add_button' class='btn btn-primary btn-small pull-right' disabled>Add Recruitment</button>";
 					}
 					?>
 

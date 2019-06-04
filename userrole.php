@@ -212,7 +212,8 @@ $(document).ready(function(){
 			type:"POST"
 		},
 		"language": {
-				"searchPlaceholder": "Search Records"
+				"searchPlaceholder": "Search Records",
+    			"search": "Search by Name or Status:"
  				 },
 		"columnDefs":[
 			{

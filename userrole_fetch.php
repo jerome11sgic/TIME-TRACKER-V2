@@ -12,7 +12,7 @@ $query .= "SELECT * FROM user_role ";
 
 if (isset($_POST["search"]["value"])) {
  $query .= 'WHERE role_name LIKE "%' . $_POST["search"]["value"] . '%" ';
- $query .= 'OR role_status LIKE "%' . $_POST["search"]["value"] . '%" ';
+ $query .= 'OR role_status LIKE "' . $_POST["search"]["value"] . '%" ';
 }
 
 if (isset($_POST['order'])) {
