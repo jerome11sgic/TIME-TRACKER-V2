@@ -67,23 +67,23 @@ include './fragments/footer.html';
 				<span id="alert_msg_modal"></span>
 
 					<div class="form-group">
-						<label>Enter Company Name</label>
-						<input type="text" name="company_name" id="company_name" class="form-control" required maxlength="20"/>
+						<label>Company Name</label>
+						<input type="text" name="company_name" id="company_name" class="form-control" placeholder="Enter Company Name" required maxlength="20"/>
 					</div>
 
 					<div class="form-group">
-						<label>Enter Contact Number</label>
-						<input type="text" name="contact_number" id="contact_number" class="form-control" required maxlength="13"/>
+						<label>Contact Number</label>
+						<input type="text" name="contact_number" id="contact_number" class="form-control" placeholder="Enter Contact Number" required maxlength="13"/>
 					</div>
 
 					<div class="form-group">
-						<label>Enter Email</label>
-						<input type="email" name="company_email" id="company_email" class="form-control" required maxlength="25"/>
+						<label>Email</label>
+						<input type="email" name="company_email" id="company_email" class="form-control" placeholder="Enter Email" required maxlength="25"/>
 					</div>
 
 					<div class="form-group">
-						<label>Enter Address</label>
-						<textarea name="address" id="address" class="form-control" required maxlength="30" style="resize:none;"></textarea>
+						<label>Address</label>
+						<textarea name="address" id="address" class="form-control" placeholder="Enter Address" required maxlength="30" style="resize:none;"></textarea>
 						</div>
 
     				<div class="modal-footer">
@@ -300,7 +300,8 @@ var validatorCompany =$('#company_form').validate({
 
 			},
 			"language": {
-    			"search": "Search by Company Name:"
+    			"search": "Search by Company Name:",
+				"searchPlaceholder": "Search Records"
  				 },
 			"columnDefs": [
 				{

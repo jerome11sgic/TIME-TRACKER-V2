@@ -20,7 +20,7 @@ if(!isset($_SESSION['type']))
 				<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
 					<div class="pull-right">
 						<button type="button" name="add" id="add_button" data-toggle="modal" data-target="#projectModal"
-							class="btn btn-success btn-xs">Add</button>
+							class="btn btn-primary btn-small">Add Project</button>
 					</div>
 				</div>
 				<div style="clear:both"></div>
@@ -66,24 +66,24 @@ include('./fragments/footer.html');
 				<span id="alert_msg_modal"></span>
 					<div class="form-group">
 						<label>Project Name</label> 
-						<input type="text" name="project_name" id="project_name" class="form-control" required />
+						<input type="text" name="project_name" id="project_name" class="form-control" required placeholder="Enter Project Name"/>
 					</div>
 
 					<div class="form-group">
 						<label>Start Date</label>
-						<input type="date" name="start_date" id="start_date" class="form-control" required />
+						<input type="date" name="start_date" id="start_date" class="form-control" required placeholder="Enter Start Date"/>
 					</div>
 
 					
 
 					<div class="form-group">
 						<label>Description</label>
-						<textarea name="description" id="description" class="form-control" style="resize:none;" required></textarea>
+						<textarea name="description" id="description" class="form-control" style="resize:none;" required placeholder="Enter Description"></textarea>
 					</div>
 
 					<div class="form-group">
 						<label>Remarks</label>
-						<textarea name="remarks" id="remarks" class="form-control" style="resize:none;" required></textarea>
+						<textarea name="remarks" id="remarks" class="form-control" style="resize:none;" required placeholder="Enter Remarks"></textarea>
 					</div>
     				<div class="modal-footer">
 						<input type="hidden" name="project_id" id="project_id"/>
@@ -275,6 +275,10 @@ messages:{
 				type: "POST",
 
 			},
+			"language": {
+    			"search": "Search by Project Name:",
+				"searchPlaceholder": "Search Records"
+ 				 },
 			"columnDefs": [
 				{
 					"targets": [0,2,3,4,5, 6],
