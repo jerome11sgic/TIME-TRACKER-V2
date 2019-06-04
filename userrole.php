@@ -211,6 +211,9 @@ $(document).ready(function(){
 			url:"userrole_fetch.php",
 			type:"POST"
 		},
+		"language": {
+    			"search": "Search by Name or Status:"
+ 				 },
 		"columnDefs":[
 			{
 				"targets":[0,2, 3],

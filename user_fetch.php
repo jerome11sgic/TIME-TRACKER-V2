@@ -14,9 +14,9 @@ SELECT * FROM user u JOIN user_role ur  ON u.user_type = ur.role_id WHERE ";
 if(isset($_POST["search"]["value"]))
 {
 	
-	$query .= '(user_name LIKE "%'.$_POST["search"]["value"].'%" ';
-	
-	$query .= 'OR role_name LIKE "%'.$_POST["search"]["value"].'%") ';
+	$query .= '(user_name LIKE "'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR user_status LIKE "'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR role_name LIKE "'.$_POST["search"]["value"].'%") ';
 }
 
 if(isset($_POST["order"]))

@@ -78,13 +78,13 @@ class UserDAO{
         $repo=new DBrepo();
         $status = 'Active';
         if ( $prmstatus== 'Active') {
-            $query="SELECT user_role.role_status as usercount FROM 
+            $query="SELECT user_role.role_status as rolestatus FROM 
             user JOIN user_role ON user.user_type =user_role.role_id 
-            WHERE user.user_id =:user_id";
+            WHERE user.user_id =:user_id ";
 			
 			$row=$repo->getSingleResult($query,array(':user_id'	=>	$userId));
 			
-			if($row["usercount"]<=0){
+			if($row["rolestatus"]=='Active'){
 				$status = 'Inactive';	
 			}
         }
