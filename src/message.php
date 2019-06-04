@@ -1,27 +1,38 @@
 <?php
 class Message{
-    private $message=array();
-    private $msgcounter=0;
+    private $errmessage=array();
+    private $successmessage=array();
+    private $errMsgcounter=0;
+    private $successMsgcounter=0;
     private $type;
 
-    public function __construct($type){
-        $this->type=$type;
+   
+    public function pushErrorMsg($msg){
+        $this->errmessage[]=$msg;
+        $this->errMsgcounter++;
     }
 
-    public function pushMsg($msg){
-        $this->message[]=$msg;
-        $this->msgcounter++;
+    public function pushSuccessMsg($msg){
+        $this->successmessage[]=$msg;
+        $this->successMsgcounter++;
     }
 
-    public function getMsgCount(){
-        return $this->msgcounter;
+    public function getErrMsgCount(){
+        return $this->errMsgcounter;
     }
 
     public function printMessage(){
+        if($this->getErrMsgCount()==0){
+            $this->type='success';
+        }else{
+            $this->type='err';
+        }
        return array(
                 'type'=>$this->type,
-                'msgcounts'=>$this->msgcounter,
-                'msg'=>$this->message);
+                'errorMsgcounts'=>$this->errMsgcounter,
+                'errorMessage'=>$this->errmessage,
+                'successMsgcounts'=>$this->successMsgcounter,
+                'successMessage'=>$this->successmessage);
     }
 
     public function printJsonMsg(){
@@ -31,11 +42,8 @@ class Message{
 
 /* Documentation of Use */
 
-// $msg=new Message('err');
-// $msg->pushMsg("abc");
-// $msg->pushMsg("xyz");
-// $msg->pushMsg("lmn");
-
-// echo $msg->getMsgCount();
-// echo $msg->printJsonMsg();
+// $msg=new Message();
+// $msg->pushSuccessMsg("xyz");
+// $msg->pushErrorMsg("abc");
+// $msg->printJsonMsg();
 ?>

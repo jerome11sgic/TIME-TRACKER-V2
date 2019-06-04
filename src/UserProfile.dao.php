@@ -1,6 +1,7 @@
 <?php
-//include_once('dbrepo.php');
-//include_once('../includes/message.inc.php');
+// include_once('dbrepo.php');
+// include_once('../includes/message.inc.php');
+// include_once('../src/message.php');
 class UserProfileDAO{
 
     public static function insertUserProfile($user_id,$first_name,$last_name,$address,$contact_number){
@@ -41,7 +42,7 @@ class UserProfileDAO{
         contact_number = TRIM(:contact_number)
 		WHERE user_id =:user_id
         ";
-        $repo->executeWithMsg("Profile details Edited","Unable To Edit Profile Details",$query,array(
+        $repo->executeWithMsg("Profile details Edited","Unable To Edit Profile Details No Change",$query,array(
             ':user_id'          => $user_id,
              ':first_name'      =>  $first_name,
              ':last_name'       =>  $last_name,
@@ -49,9 +50,43 @@ class UserProfileDAO{
              ':contact_number'  =>  $contact_number,
             ));
     }
+    public static function changePassword($currentPass,$newPass,$confirmPass,$user_id){
+        $msg=new Message();
+      
+        if($currentPass !=''){
+        $repo =new DBRepo();
+        $query = "SELECT user_password FROM user WHERE user_id = :user_id ";
+        $row=$repo->getSingleResult($query,array(':user_id'	=>	$user_id));
+        $result =$row['user_password'];
+        //print_r($result);
+        $oldPass =$currentPass;
+        if(password_verify($oldPass,$result)){
+            if($newPass == $confirmPass){
+                $query = "
+                UPDATE user SET  
+			    user_password = '".password_hash($newPass, PASSWORD_DEFAULT)."' 
+			    WHERE user_id = :user_id
+        ";
+
+        if ($repo->executeWitAffectedrows($query,array(':user_id' => $user_id))){
+            $msg->pushSuccessMsg('Password changed');
+        }
+
+            }else{
+                $msg->pushErrorMsg('New password and confirm password not match');
+            }
+        }else{
+            $msg->pushErrorMsg('Please enter correct current password ');
+        }
+        }
+
+        $msg->printJsonMsg();
+
+    }
 }
 //UserProfileDAO::insertUserProfile(2,'thirupp','chan','jaffna','0778368806');
 //print_r(UserProfileDAO::findProfilleById(1));
-//UserProfileDAO::editProfile(1,'thiru','paran','jaffna','0778368806');
+// UserProfileDAO::editProfile(1,'thiru','paran','jaffna','0778368806');
+//UserProfileDAO::changePassword("thiru123","thiru123","thiru123",1);
 
 ?>
