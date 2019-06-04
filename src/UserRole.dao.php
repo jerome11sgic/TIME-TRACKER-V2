@@ -9,15 +9,15 @@ class UserRoleDAO{
 
 			$repo=new DBrepo();
         $query = "
-		INSERT INTO user_role (role_name,role_status) 
-		SELECT * FROM (SELECT :role_name, :role_status)
-		AS tmp
-		WHERE NOT EXISTS (
-    	SELECT role_name FROM user_role WHERE role_name = :role_name
-		) LIMIT 1"
-		;
+				INSERT INTO user_role (role_name,role_status) 
+				SELECT * FROM (SELECT TRIM(:role_name), :role_status)
+				AS tmp
+				WHERE NOT EXISTS (
+					SELECT role_name FROM user_role WHERE role_name = TRIM(:role_name2)
+				) LIMIT 1";
 		
 		$repo->executeWithMsg("User Role Added Sucssfully","unable to insert User Role",$query,array(
+			':role_name2'	=>	$role_name,
 			':role_name'	=>	$role_name,
 			':role_status'	=>	'Active'
 		));
@@ -75,5 +75,5 @@ class UserRoleDAO{
 }
 
  
-// UserRoleDAO::insertUserRole("");
+ //UserRoleDAO::insertUserRole('test');
 ?>

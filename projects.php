@@ -65,7 +65,7 @@ include('./fragments/footer.html');
 					<!-- Alert action goes here -->
 				<span id="alert_msg_modal"></span>
 					<div class="form-group">
-						<label>Project Name</label>
+						<label>Project Name</label> 
 						<input type="text" name="project_name" id="project_name" class="form-control" required />
 					</div>
 
@@ -78,12 +78,12 @@ include('./fragments/footer.html');
 
 					<div class="form-group">
 						<label>Description</label>
-						<textarea name="description" id="description" class="form-control" required></textarea>
+						<textarea name="description" id="description" class="form-control" style="resize:none;" required></textarea>
 					</div>
 
 					<div class="form-group">
 						<label>Remarks</label>
-						<textarea name="remarks" id="remarks" class="form-control" required></textarea>
+						<textarea name="remarks" id="remarks" class="form-control" style="resize:none;" required></textarea>
 					</div>
     				<div class="modal-footer">
 						<input type="hidden" name="project_id" id="project_id"/>
@@ -231,8 +231,7 @@ messages:{
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					console.log(xhr.status);
-					console.log(xhr.responseText);
-					
+					console.log(xhr.responseText);	
 					console.log(thrownError);
 				}
 			})
@@ -261,8 +260,7 @@ messages:{
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					console.log(xhr.status);
-					console.log(xhr.responseText);
-					
+					console.log(xhr.responseText);	
 					console.log(thrownError);
 				}
 			})
@@ -320,8 +318,7 @@ messages:{
 					},
 				error: function (xhr, ajaxOptions, thrownError) {
 					console.log(xhr.status);
-					console.log(xhr.responseText);
-					
+					console.log(xhr.responseText);	
 					console.log(thrownError);
 				}
 				})
