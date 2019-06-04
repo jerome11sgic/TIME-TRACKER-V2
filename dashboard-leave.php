@@ -79,6 +79,32 @@ if(!isset($_SESSION['type']))
 <div class="row">
 
 	<div class="col-md-8">
+		<div>
+
+			<div class="card border-danger mx-sm-1 p-3">
+				<div class="card border-danger shadow text-danger p-3 my-card"><span class="fa fa-heart"
+						aria-hidden="true"></span></div>
+				<div class="text-danger text-center mt-3">
+					<h4>Hearts</h4>
+				</div>
+				<div class="text-danger text-center mt-2">
+					<h1>346</h1>
+				</div>
+			</div>
+
+			<div class="card border-danger mx-sm-1 p-3">
+				<div class="card border-danger shadow text-danger p-3 my-card"><span class="fa fa-heart"
+						aria-hidden="true"></span></div>
+				<div class="text-danger text-center mt-3">
+					<h4>Hearts</h4>
+				</div>
+				<div class="text-danger text-center mt-2">
+					<h1>346</h1>
+				</div>
+			</div>
+
+		</div>
+
 		<div id="calendar" class="col-centered" style="width:85%;"></div>
 	</div>
 	<div class="col-md-4">
@@ -89,11 +115,7 @@ if(!isset($_SESSION['type']))
 			<div class="panel-body">
 
 				<div class="notice notice-success">
-					<div class="notice notice-info notice-sm">
-						<br />Type : <strong>Casual</strong>
-						<br />From <strong>2019 -06 - 07</strong> to <strong>2019 -06 - 09</strong>
-						<br />Applied on : <strong>2019 - 08 - 09</strong>
-					</div>
+
 
 
 
@@ -155,14 +177,26 @@ if(!isset($_SESSION['type']))
 						</tr>
 					</table>
 
+					<div class="notice notice-info notice-sm">
+						<br />Type : <strong>Casual</strong>
+						<br />From <strong>2019 -06 - 07</strong> to <strong>2019 -06 - 09</strong>
+						<br />Applied on : <strong>2019 - 08 - 09</strong>
+						<br />Reason : Going to trip
+
+						<div>
+							<button class="btn btn-xs btn-primary pull-right">Cancel </button>
+						</div>
+					</div>
+
+
 				</div>
-				<div class="notice notice-danger">
+				<!-- <div class="notice notice-danger">
 					<strong>Notice</strong> notice-danger
 				</div>
 
 				<div class="notice notice-warning">
 					<strong>Notice</strong> notice-warning
-				</div>
+				</div> -->
 
 
 			</div>

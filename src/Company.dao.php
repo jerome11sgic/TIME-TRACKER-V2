@@ -54,7 +54,7 @@ public static function toggleCompany($prmstatus,$company_id){
     $status = 'Active';
     if( $prmstatus== 'Active')
     {
-        $query="SELECT count(user_company.user_company_id) as userCompanyCount FROM out_source_company
+        $query="SELECT count(user_company.id) as userCompanyCount FROM out_source_company
         INNER JOIN user_company ON user_company.company_id=out_source_company.company_id
         WHERE out_source_company.company_id=:company_id AND out_source_company.company_status='Active'";
         $row=$repo->getSingleResult($query,array(':company_id'	=>	$company_id));
