@@ -93,6 +93,7 @@ class UserService
         }
     }
 }
+//print_r(UserService::sendMailNotification("user","thirupparan19941233s@gmail.com","something","csfe"));
 
 
 //UserService::sendMailNotification("user","thirupparan@samuelgnanam.com","123","some");

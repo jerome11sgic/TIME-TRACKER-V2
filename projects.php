@@ -215,14 +215,14 @@ messages:{
 					if(data.type == 'success'){
 					$('#project_form')[0].reset();
 					$('#projectModal').modal('hide');
-					$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
+					$('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.successMessage + '</div>');
 					$('#action').attr('disabled', false);
 					projectsdataTable.ajax.reload();
 					setTimeout(function () {
 						$('#alert_action').html('');
 						}, 1500);
 					}else if (data.type == 'err'){
-						$('#alert_msg_modal').fadeIn().html('<div class="alert alert-danger">'+data.msg+'</div>');
+						$('#alert_msg_modal').fadeIn().html('<div class="alert alert-danger">'+data.errorMessage+'</div>');
 						$('#action').attr('disabled', false);
 						setTimeout(() => {
 							$('#alert_msg_modal').html('');

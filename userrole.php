@@ -215,7 +215,7 @@ $(document).ready(function(){
 		},
 		"language": {
 				"searchPlaceholder": "Search Records",
-    			"search": "Search by Name or Status:"
+    			"search": "Search by Role or Status:"
  				 },
 		"columnDefs":[
 			{

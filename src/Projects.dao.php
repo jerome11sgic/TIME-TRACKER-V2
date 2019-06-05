@@ -8,7 +8,7 @@ public static function insertsProjects($user_id,$project_name,$startdate,$descri
 		INSERT INTO project (user_id,project_name,start_date,description,remarks,project_status) 
 		VALUES (:user_id,:project_name,:start_date,:description,:remarks,:project_status)
         ";
-        $repo->executeWithMsg("Project details inserted", "unable to insert Project details",$query, array(
+        return $repo->executeInsertGetLastId($query, array(
                 ':user_id'	    =>	$user_id,
 				':project_name'	=>	$project_name,
 				':start_date'	=>	$startdate,
@@ -23,7 +23,7 @@ public static function editProjects($project_id,$project_name,$start_date,$descr
 		UPDATE project set project_name = :project_name,start_date =:start_date,description =:description,remarks=:remarks
 		WHERE project_id = :project_id
 		";
-		$repo->executeWithMsg("Project details Edited", "unable to Edit Project details",$query, array(
+		return $repo->executeWitAffectedrows($query, array(
 				':project_id'	=>	$project_id,
 				':project_name'	=>	$project_name,
 				':start_date'	=>	$start_date,
