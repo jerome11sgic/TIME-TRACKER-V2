@@ -10,7 +10,7 @@ $output = '';
 
 function fill_project_list($connect, $id)
 {
-     $query = "SELECT * FROM project WHERE user_id = " . $_SESSION["user_id"];
+     $query = "SELECT * FROM project WHERE user_id = " . $_SESSION["user_id"] . " AND project_status='In_progress'";
      $result = mysqli_query($connect, $query);
      $project_list = '';
      if (mysqli_num_rows($result) > 0) {
