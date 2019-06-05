@@ -33,15 +33,17 @@ include_once('src/message.php');
 		$description	= trim($_POST["description"]);
 		$remarks		= trim($_POST["remarks"]);
 		
-		$errmsg=new Message('err');
+		$msg=new Message();
 		if(ProjectsValidation::existProjectname($project_name)){
-			$errmsg->pushMsg('Project Name Already exist');
+			$msg->pushErrorMsg('Project Name Already exist');
 		}
-		if($errmsg->getMsgCount()>0){
-			$errmsg->printJsonMsg();
-		}else{
-		ProjectsDAO:: insertsProjects($user_id,$project_name,$start_date,$description,$remarks);
+		if($msg->getErrMsgCount()==0){
+			$rowaffect=ProjectsDAO:: insertsProjects($user_id,$project_name,$start_date,$description,$remarks);
+			if($rowaffect>0){
+				$msg->pushSuccessMsg("Project Details Added successfully");
+			}
 		}
+			$msg->printJsonMsg();	
 	}
 	
 		if ($_POST['action'] == 'FETCH_SINGLE') {
@@ -57,15 +59,19 @@ include_once('src/message.php');
 		$description	= trim($_POST["description"]);
 		$remarks		= trim($_POST["remarks"]);
 		
-		$errmsg=new Message('err');
+		$msg=new Message();
 		if(ProjectsValidation::existProjectnameLock($project_name,$project_id)){
-			$errmsg->pushMsg('Project Name Already exist');
+			$msg->pushErrorMsg('Project Name Already exist');
 		}
-		if($errmsg->getMsgCount()>0){
-			$errmsg->printJsonMsg();
-		}else{
-		ProjectsDAO::editProjects($project_id,$project_name,$start_date,$description,$remarks);
+		if($msg->getErrMsgCount()==0){
+			$rowaffect=ProjectsDAO::editProjects($project_id,$project_name,$start_date,$description,$remarks);
+			if($rowaffect == 0){
+				$msg->pushErrorMsg("No Changes Done");
+			}elseif($rowaffect >0){
+				$msg->pushSuccessMsg("Project Details Edited Successfully");
+			}
 		}
+		$msg->printJsonMsg();
 	}
 	if ($_POST['action'] == 'TOGGLE') {
         ProjectsDAO::toggleProject($_POST['status'],$_POST["project_id"]);

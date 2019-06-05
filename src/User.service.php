@@ -19,15 +19,13 @@ class UserService{
     public static function sendMailNotification($username,$useremail,$userpass,$url){
         //email function start
         // Load Composer's autoloader
-        require 'phpmailer/vendor/autoload.php';
-
+        require '../phpmailer/vendor/autoload.php';
         // Instantiation and passing `true` enables exceptions
                 $mail = new PHPMailer(true);
-        
                 try {
                     //Server settings
-                    //$mail->SMTPDebug = 1; // Enable verbose debug output
-                    $mail->isSMTP(); // Set mailer to use SMTP
+                    // $mail->SMTPDebug = 1; // Enable verbose debug output
+                   $mail->isSMTP(); // Set mailer to use SMTP
                     $mail->Host       = 'smtp.gmail.com'; // Specify main and backup SMTP servers
                     $mail->SMTPAuth   = true; // Enable SMTP authentication
                     $mail->Username   = 'samuelgnanamhrm@gmail.com'; // SMTP username
@@ -36,8 +34,9 @@ class UserService{
                     $mail->Port       = 587; // TCP port to connect to
         
                     //Recipients
-                    $mail->setFrom('samuelgnanamhrm@gmail.com', 'TIME TRACKER LOGIN INFORMATION');
-                    $mail->addAddress($useremail, 'Sgic Time Tracker .com');
+                    $mail->setFrom('info@timetracker.com', 'TIME TRACKER LOGIN INFORMATION');
+                    $mail->addAddress($useremail);
+                    echo $mail->Sender='samuelgnanamhrm@gmail.com';
                     $Body = ' Dear ' . $username . ',</br>
                                 <p> This is to inform you that SGIC TIME TRACKER SYSTEM login credentials information details  </p> </br>
                                 Your Login Email ID : "' . $useremail . '"</br>
@@ -52,15 +51,20 @@ class UserService{
                     $mail->Body    = $Body;
                     $mail->AltBody = strip_tags($Body);
         
-                    $mail->send();
+                    return $mail->send();
                     //header("location:user.php?newuser_added=success");
-                   return true;
+                   return true; 
+                        //echo 'Message has been sent';
+                // }catch(phpmailerException $e){
+                //     echo $e->errorMessage(); //Pretty error messages from PHPMailer
                 } catch (Exception $e) {
                     //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                   // echo $e->getMessage("Message could not be sent. Mailer Error");
                     return false;
                 } //finshed email function
     }
 }
+//print_r(UserService::sendMailNotification("user","thirupparan19941233s@gmail.com","something","csfe"));
 
 
 
