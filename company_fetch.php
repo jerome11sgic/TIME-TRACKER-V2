@@ -12,8 +12,8 @@ $query .= "SELECT * FROM out_source_company ";
 
 if(isset($_POST["search"]["value"]))
 {
-	$query .= 'WHERE company_name LIKE "%'.$_POST["search"]["value"].'%" ';
-	$query .= 'OR company_status LIKE "%'.$_POST["search"]["value"].'%" ';
+	$query .= 'WHERE company_name LIKE "'.$_POST["search"]["value"].'%" ';
+	$query .= 'OR company_status LIKE "'.$_POST["search"]["value"].'%" ';
 }
 
 if(isset($_POST['order']))

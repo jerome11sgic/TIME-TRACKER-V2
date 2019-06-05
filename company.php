@@ -288,6 +288,12 @@ var validatorCompany =$('#company_form').validate({
 					$('#company_id').val(company_id);
 					$('#action').val('EDIT');
 					$('#btn_action').val("Update");
+				},
+				
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);	
+					console.log(thrownError);
 				}
 			})
 		});
@@ -302,7 +308,7 @@ var validatorCompany =$('#company_form').validate({
 
 			},
 			"language": {
-    			"search": "Search by Company Name:",
+    			"search": "Search by Company Name or Status:",
 				"searchPlaceholder": "Search Records"
  				 },
 			"columnDefs": [
@@ -346,7 +352,12 @@ var validatorCompany =$('#company_form').validate({
 							}, 1500);
 
 						}
-					}
+					},
+				error: function (xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					console.log(xhr.responseText);	
+					console.log(thrownError);
+				}
 				})
 			}
 			else {
