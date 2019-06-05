@@ -64,7 +64,7 @@ if (isset($_POST['action'])) {
         $hiddenUserType = trim($_POST["hidden_user_type"]);
 
         $msg = new Message();
-        if (Uservalidation::existUsername($username)) {
+        if (Uservalidation::existUsernameLock($username, $userid)) {
             $msg->pushErrorMsg('User Name Already exist');
         }
         if ($useremail != $hiduseremail) {

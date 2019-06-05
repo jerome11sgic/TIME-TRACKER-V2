@@ -67,12 +67,12 @@ include('function.php');
 					<span id="alert_msg_modal"></span>
 					<div class="form-group">
 						<label>User Name</label>
-						<input type="text" name="user_name" id="user_name" class="form-control" placeholder="Enter User Name" required />
+						<input type="text" name="user_name" id="user_name" class="form-control" placeholder="Enter User Name" required maxlength="30" />
 						<input type="hidden" name="hidden_user_name" id="hidden_user_name" class="form-control" required />
 					</div>
 					<div class="form-group">
 						<label>User Email</label>
-						<input type="email" name="user_email" id="user_email" placeholder="Enter User Email" class="form-control" required />
+						<input type="email" name="user_email" id="user_email" placeholder="Enter User Email" class="form-control" required maxlength="30" />
 						<input type="hidden" name="hidden_user_email" id="hidden_user_email" class="form-control" required />
 					</div>
 
