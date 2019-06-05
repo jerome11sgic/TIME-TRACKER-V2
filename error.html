@@ -11,19 +11,12 @@
 <body>
     <br />
     <font size='1'>
-        <table class='xdebug-error xe-uncaught-exception' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
+        <table class='xdebug-error xe-notice' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
             <tr>
                 <th align='left' bgcolor='#f57900' colspan="5"><span
-                        style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Fatal error:
-                    Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column
-                    'user_company.user_company_id' in 'field list' in C:\wamp64\www\SGIC-Time-Tracker-v2\src\dbrepo.php
-                    on line <i>113</i></th>
-            </tr>
-            <tr>
-                <th align='left' bgcolor='#f57900' colspan="5"><span
-                        style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span>
-                    PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_company.user_company_id'
-                    in 'field list' in C:\wamp64\www\SGIC-Time-Tracker-v2\src\dbrepo.php on line <i>113</i></th>
+                        style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Notice:
+                    Undefined variable: user_name in C:\wamp64\www\SGIC-Time-Tracker-v2\user_action.php on line
+                    <i>67</i></th>
             </tr>
             <tr>
                 <th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th>
@@ -37,36 +30,11 @@
             </tr>
             <tr>
                 <td bgcolor='#eeeeec' align='center'>1</td>
-                <td bgcolor='#eeeeec' align='center'>0.0004</td>
-                <td bgcolor='#eeeeec' align='right'>406664</td>
+                <td bgcolor='#eeeeec' align='center'>0.0003</td>
+                <td bgcolor='#eeeeec' align='right'>407664</td>
                 <td bgcolor='#eeeeec'>{main}( )</td>
-                <td title='C:\wamp64\www\SGIC-Time-Tracker-v2\company_action.php' bgcolor='#eeeeec'>
-                    ...\company_action.php<b>:</b>0</td>
-            </tr>
-            <tr>
-                <td bgcolor='#eeeeec' align='center'>2</td>
-                <td bgcolor='#eeeeec' align='center'>0.0010</td>
-                <td bgcolor='#eeeeec' align='right'>409064</td>
-                <td bgcolor='#eeeeec'>ComapanyDAO::toggleCompany( )</td>
-                <td title='C:\wamp64\www\SGIC-Time-Tracker-v2\company_action.php' bgcolor='#eeeeec'>
-                    ...\company_action.php<b>:</b>65</td>
-            </tr>
-            <tr>
-                <td bgcolor='#eeeeec' align='center'>3</td>
-                <td bgcolor='#eeeeec' align='center'>0.0036</td>
-                <td bgcolor='#eeeeec' align='right'>424624</td>
-                <td bgcolor='#eeeeec'>DBRepo->getSingleResult( )</td>
-                <td title='C:\wamp64\www\SGIC-Time-Tracker-v2\src\Company.dao.php' bgcolor='#eeeeec'>
-                    ...\Company.dao.php<b>:</b>60</td>
-            </tr>
-            <tr>
-                <td bgcolor='#eeeeec' align='center'>4</td>
-                <td bgcolor='#eeeeec' align='center'>0.0036</td>
-                <td bgcolor='#eeeeec' align='right'>424624</td>
-                <td bgcolor='#eeeeec'><a href='http://www.php.net/PDO.prepare' target='_new'>prepare</a>
-                    ( )</td>
-                <td title='C:\wamp64\www\SGIC-Time-Tracker-v2\src\dbrepo.php' bgcolor='#eeeeec'>
-                    ...\dbrepo.php<b>:</b>113</td>
+                <td title='C:\wamp64\www\SGIC-Time-Tracker-v2\user_action.php' bgcolor='#eeeeec'>
+                    ...\user_action.php<b>:</b>0</td>
             </tr>
         </table>
     </font>
