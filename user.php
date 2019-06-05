@@ -27,6 +27,7 @@ include('function.php');
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-sm-12 table-responsive">
+						<!-- Alert action goes here -->
 						<span id="alert_action"></span>
 						<?php
 						?>
@@ -77,9 +78,9 @@ include('function.php');
 					</div>
 
 					<div class="form-group">
-						<label>Select User Role</label>
+						<label>User Role</label>
 						<select name="user_type" id="user_type" class="form-control" required>
-							<option value="">Select User Type</option>
+							<option value="">Select User Role</option>
 							<?php echo fill_user_role_list($connect); ?>
 							<!-- <option value="Other">Other</option> -->
 						</select>

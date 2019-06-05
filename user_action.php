@@ -94,7 +94,7 @@ if (isset($_POST['action'])) {
         if ($msg->getErrMsgCount() == 0) {
             if ($hiddenUserName != $username || $hiddenUserType != $usertype) {
                 if (UserDAO::editUser($userid, $username, $usertype) > 0) {
-                    $msg->pushSuccessMsg("Changes done");
+                    $msg->pushSuccessMsg("User Details Edited Successfully");
                 }
             }
         }

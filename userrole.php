@@ -59,8 +59,8 @@ if (!isset($_SESSION['type'])) {
 					<!-- Alert Msg goes here -->
 					<span id="alert_msg_modal"></span>
 					<div class="form-group">
-						<label>User role</label>
-						<input type="text" name="role_name" id="role_name" class="form-control" placeholder="Enter User role" required />
+						<label>User Role</label>
+						<input type="text" name="role_name" id="role_name" class="form-control" placeholder="Enter User Role" required />
 					</div>
 				</div>
 				<div class="modal-footer">
