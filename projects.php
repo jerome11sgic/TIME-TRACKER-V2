@@ -18,7 +18,7 @@ if (!isset($_SESSION['type'])) {
 				</div>
 				<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
 					<div class="pull-right">
-						<button type="button" name="add" id="add_button" data-toggle="modal" data-target="#projectModal" class="btn btn-primary btn-small">Add Project</button>
+						<button type="button" name="add" id="add_button" data-toggle="modal" class="btn btn-primary btn-small">Add Project</button>
 					</div>
 				</div>
 				<div style="clear:both"></div>
@@ -117,11 +117,13 @@ include('./fragments/footer.html');
 
 		$('#add_button').click(function() {
 			$('#project_form')[0].reset();
+			validatorProject.resetForm();
 			$('.modal-title').html("<i class='fa fa-plus'></i> Add Project Details");
 			$('#action').val('ADD');
 			$('#btn_action').val('Add');
 			$('#btn_action').attr('disabled', false);
-			validatorProject.resetForm();
+			$('#projectModal').modal('show');
+
 		});
 
 		$.validator.addMethod("noSpace", function(value, element) {

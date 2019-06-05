@@ -31,7 +31,7 @@ if (!isset($_SESSION['type'])) {
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>User role</th>
+									<th>User Role</th>
 									<th>Edit</th>
 									<th>Status</th>
 								</tr>

@@ -275,8 +275,12 @@ if ($currentdate > $gotDate) {
                     },
                     dataType: "json",
                     success: function(data) {
-                         alert(data.msg);
+                         $('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
                          fetch_data();
+
+                         setTimeout(() => {
+                              $('#alert_action').html('');
+                         }, 3000);
                     }
                });
           }
@@ -322,8 +326,12 @@ if ($currentdate > $gotDate) {
                          },
                          dataType: "json",
                          success: function(data) {
-                              alert(data.msg);
+                              $('#alert_action').fadeIn().html('<div class="alert alert-success">' + data.msg + '</div>');
                               fetch_data();
+
+                              setTimeout(() => {
+                                   $('#alert_action').html('');
+                              }, 3000);
                          }
                     });
                }
