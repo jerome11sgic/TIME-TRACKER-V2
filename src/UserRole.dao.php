@@ -67,7 +67,7 @@ class UserRoleDAO{
 		WHERE role_id = :role_id
 		";
 
-		$repo->executeWithMsg("User Role Changed","Unable to Change user role",$query,array(
+		$repo->executeWithMsg("User Role Status Changed","Unable to Change user role",$query,array(
 			':role_status'	=>	$status,
 			':role_id'		=>	$roleId
 		));	
@@ -76,4 +76,3 @@ class UserRoleDAO{
 
  
  //UserRoleDAO::insertUserRole('test');
-?>
